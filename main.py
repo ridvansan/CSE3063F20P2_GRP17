@@ -1,6 +1,6 @@
 from inputReaders.StudentInputReader import StudentInputReader
 from inputReaders.PollReader import PollReader
-from models.PollAnswers import PollAnswers
+from models.PollAnswer import PollAnswers
 from inputReaders.KeyMaker import KeyMaker
 
 studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")

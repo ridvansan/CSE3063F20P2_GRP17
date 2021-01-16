@@ -1,4 +1,4 @@
-class PollAnswers:
+class PollAnswer:
     def __init__(self, poll, dateTime):
         self.poll = poll
         self.dateTime = dateTime

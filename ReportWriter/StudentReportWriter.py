@@ -1,5 +1,5 @@
 import pandas as pd
-from openpyxl import Workbook,load_workbook
+from openpyxl import Workbook, load_workbook
 
 class StudentReportWriter:
     wb = Workbook()
@@ -15,11 +15,11 @@ class StudentReportWriter:
         return df
 
     def number_of_attendance_polls(self):
-
+        pass
 
     def attendance_rate(self):
-
+        pass
 
     def attendance_percentage(self):
-
+        pass
 
