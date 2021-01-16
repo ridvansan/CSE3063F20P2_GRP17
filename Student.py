@@ -6,7 +6,7 @@ class Student:
         self.name = name
         self.surname = surname
         self.desc = desc
-        self.polls = []
+        self.pollAnswers = []
 
     def __repr__(self):
         return str(self)
@@ -14,5 +14,5 @@ class Student:
     def __str__(self):
         return f'<{self.name} {self.surname} >'
 
-    def addToPolls(self, poll):
-        self.polls.append(poll)
+    def addToPollAnswers(self, pollAnswers):
+        self.pollAnswers.append(pollAnswers)

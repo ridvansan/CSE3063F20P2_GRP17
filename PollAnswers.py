@@ -1,7 +1,8 @@
 
 class PollAnswers:
-    def __init__(self, poll):
-        self.poll = poll
+    def __init__(self, pollname, dateTime):
+        self.poll = pollname
+        self.dateTime = dateTime
         self.studentAnswers = []
 
     def addToStudentAnswers(self, studentAnswer):
