@@ -43,9 +43,10 @@ class PollReader:
                 #store questionNames:
                 for i in range(4, len(line), 2):
                     questionNames.append(line[i])
-
+                questionNames.pop()
                 for poll in polls:
                     pollQuestions = poll.getQuestionNames()
+
                     if pollQuestions == questionNames:
                         for j in range(5, len(line), 2):
                             poll.insertAnswer(line[j])
