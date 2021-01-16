@@ -7,12 +7,11 @@ class StudentReportWriter:
     ws.title = "Student Report"
     wb.save("CSE3063_studentReport.xlsx")
 
-    def __init__(self):
-        pass
+    def __init__(self, studentList):
+        self.studentList = studentList
 
-    def students(self):
-        df = pd.read_excel (r'assets/CES3063_Fall2020_rptSinifListesi.XLS')
-        return df
+    def writeOutputToFile(self):
+        pass
 
     def number_of_attendance_polls(self):
         pass
