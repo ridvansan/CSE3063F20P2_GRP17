@@ -7,6 +7,8 @@ class Student:
         self.surname = surname
         self.desc = desc
 
+    def __repr__(self):
+        return str(self)
 
     def __str__(self):
         return f'<{self.name} {self.surname} >'

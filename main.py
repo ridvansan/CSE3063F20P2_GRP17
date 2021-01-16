@@ -1,8 +1,9 @@
 from StudentInputReader import StudentInputReader
 
-students = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
-students.getStudentList()
-print(students)
+studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
+studentList = studentInputReader.getStudentList()
+print(studentList)
+
 #input = InputHandler("poll.csv")
 #keys = KeyMaker("Keys.csv")
 
