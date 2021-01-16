@@ -5,7 +5,9 @@ from inputReaders.KeyMaker import KeyMaker
 studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
 studentList = studentInputReader.getStudentList()
 pollReader = PollReader("assets/CSE3063_20201123_Mon_zoom_PollReport.csv")
-pollReader.readAnswers(studentList)
+k = KeyMaker('assets/answer_monday.xls')
+polls = k.makeKeys()
+pollReader.readAnswers(studentList, polls)
 studentListWithAnswers = pollReader.studentList
 
 for student in studentListWithAnswers:
@@ -15,8 +17,7 @@ for student in studentListWithAnswers:
             print(studentAnswer.answertext + ", ")
     print("\n")
 
-k = KeyMaker('assets/answer_monday.xls')
-polls = k.makeKeys()
+
 
 pollReader.readQuestionFrequencies(polls)
 

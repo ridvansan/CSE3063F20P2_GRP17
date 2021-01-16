@@ -5,7 +5,6 @@
 #isDomain:False
 
 import pandas as pd
-
 from models.Key import Key
 from models.Poll import Poll
 from models.Question import Question
