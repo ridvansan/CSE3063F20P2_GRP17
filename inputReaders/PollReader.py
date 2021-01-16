@@ -20,10 +20,10 @@ class InputHandler:
 
                     #Is comparison OK????????????????????
                     fullName = str(student.name + " " + student.surname).lower()
-
+                    #remove numbers in the string
+                    pollName = ''.join(i for i in str(line[1]).lower() if not i.isdigit())
                     # if lowercased student name is in the studentList
-                    if fullName == str(line[1]).lower():
-
+                    if fullName == pollName:
                         #create pollAnswers
                         pollAnswers = PollAnswers(self.filename, line[3])
 
