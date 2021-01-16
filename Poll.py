@@ -1,10 +1,9 @@
 
 class Poll:
 
-    def __init__(self, name, datetime):
+    def __init__(self, name):
 
         self.name = name
-        self.datetime = datetime
         self.questionlist = []
 
     def addToQuestionList(self, question):
