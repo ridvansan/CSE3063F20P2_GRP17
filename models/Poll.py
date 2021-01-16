@@ -1,4 +1,3 @@
-
 class Poll:
 
     def __init__(self, name, questionList):
@@ -9,5 +8,4 @@ class Poll:
         self.questionlist.append(question)
 
     def __str__(self):
-        return f'{self.name} '
-
+        return f'{self.name} <{self.questionlist}>\n '

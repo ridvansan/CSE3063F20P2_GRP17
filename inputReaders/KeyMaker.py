@@ -5,9 +5,10 @@
 #isDomain:False
 
 import pandas as pd
-from Poll import Poll
-from Question import Question
-from Answer import Key
+
+from models.Key import Key
+from models.Poll import Poll
+from models.Question import Question
 
 class KeyMaker:
 
