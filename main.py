@@ -1,15 +1,15 @@
 from inputReaders.StudentInputReader import StudentInputReader
 from inputReaders.PollReader import PollReader
-from models.PollAnswer import PollAnswers
+from models.PollAnswer import PollAnswer
 from inputReaders.KeyMaker import KeyMaker
 
 studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
 studentList = studentInputReader.getStudentList()
 pollReader = PollReader("assets/CSE3063_20201123_Mon_zoom_PollReport.csv")
-pollReader.readPolls(studentList)
-studentList = pollReader.studentList
+pollReader.readAnswers(studentList)
+studentListWithAnswers = pollReader.studentList
 
-for student in studentList:
+for student in studentListWithAnswers:
     print(student.name + " " + student.surname)
     for answer in student.getPollAnswers():
         for studentAnswer in answer.studentAnswers:

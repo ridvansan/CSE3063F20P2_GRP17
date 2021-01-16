@@ -1,6 +1,6 @@
 import csv
 
-from models.PollAnswer import PollAnswers
+from models.PollAnswer import PollAnswer
 from models.StudentAnswer import StudentAnswer
 from models.Poll import Poll
 
@@ -11,7 +11,7 @@ class PollReader:
 
     studentList = []
 
-    def readPolls(self, studentList):
+    def readAnswers(self, studentList):
         self.studentList = studentList
         with open(self.filename, encoding="utf8") as file:
             lines = csv.reader(file, delimiter= ',')
@@ -27,7 +27,7 @@ class PollReader:
                     if fullName == pollName:
                         print("aaa")
                         #create pollAnswers
-                        pollAnswers = PollAnswers(self.filename, line[3])
+                        pollAnswers = PollAnswer(self.filename, line[3])
 
                         #questionlist = []
                         #for i in range(4, len(line), 2):
@@ -41,3 +41,10 @@ class PollReader:
                         break
 
         file.close()
+
+
+    def readQuestionFrequencies(self):
+
+        with open(self.filename, encoding="utf8") as file:
+            lines = csv.reader(file, delimiter =',')
+
