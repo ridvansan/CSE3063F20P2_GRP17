@@ -4,7 +4,7 @@ from models.PollAnswers import PollAnswers
 from models.StudentAnswer import StudentAnswer
 
 
-class InputHandler:
+class PollReader:
 
     def __init__(self, filename):
         self.filename = filename
