@@ -8,5 +8,6 @@ class Poll:
     def addToQuestionList(self, question):
         self.questionlist.append(question)
 
-
+    def __str__(self):
+        return f'{self.name} '
 
