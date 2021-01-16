@@ -17,7 +17,7 @@ class StudentInputReader:
         file = file.drop_duplicates()
         file = file.reset_index(drop=True)
         file = file.drop([0])
-        file = file.rename(columns={'Unnamed: 2': 'StudentID','Unnamed: 4': 'Name', 'Unnamed: 7': 'Surname','Unnamed: 10': 'Description',})
+        file = file.rename(columns={'Unnamed: 2': 'StudentID','Unnamed: 4': 'Name', 'Unnamed: 7': 'Surname','Unnamed: 10': 'Description'})
         studentList = []
         ids = file.StudentID
         names = file.Name
