@@ -6,6 +6,7 @@ class Poll:
     def __init__(self, name, questionList):
         self.name = name
         self.questionlist = questionList
+        self.answers = {}
 
     def addToQuestionList(self, question):
         self.questionlist.append(question)
@@ -17,5 +18,14 @@ class Poll:
     def analyze(self):
         pass
 
+    def getQuestionNames(self):
+        questionNames = []
+        for question in self.questionlist:
+            questionNames.append(question)
+        return questionNames
 
-
+    def insertAnswer(self, answer):
+        if answer in self.answers:
+            self.answers[answer] += 1
+        else:
+            self.answers[answer] = 1
