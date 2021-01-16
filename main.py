@@ -1,4 +1,4 @@
-from KeyMaker import KeyMaker
+from inputReaders.KeyMaker import KeyMaker
 from inputReaders.StudentInputReader import StudentInputReader
 
 studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")

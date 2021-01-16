@@ -3,7 +3,7 @@
 # LOC: 18
 
 import pandas as pd
-from Student import Student
+from models.Student import Student
 
 
 class StudentInputReader:

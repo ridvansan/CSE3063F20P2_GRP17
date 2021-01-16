@@ -10,3 +10,6 @@ class Question:
 
     def putKeys(self, keys):
         self.keys = keys
+
+    def __str__(self):
+        return f'{self.name} <{self.keys}>'
