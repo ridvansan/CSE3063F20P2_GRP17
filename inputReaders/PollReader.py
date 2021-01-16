@@ -1,7 +1,8 @@
 import csv
 
-from models.Answer import StudentAnswer
 from models.PollAnswers import PollAnswers
+from models.StudentAnswer import StudentAnswer
+
 
 class InputHandler:
 
