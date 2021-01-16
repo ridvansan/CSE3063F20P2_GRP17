@@ -1,8 +1,15 @@
+from KeyMaker import KeyMaker
 from inputReaders.StudentInputReader import StudentInputReader
 
 studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
 studentList = studentInputReader.getStudentList()
-print(studentList)
+#print(studentList)
+
+
+keyMaker = KeyMaker('assets/answer_monday.xls')
+polls = keyMaker.makeKeys()
+print(polls)
+
 
 #input = InputHandler("poll.csv")
 #keys = KeyMaker("Keys.csv")
