@@ -1,6 +1,6 @@
-#ClassName: Student Import
+#ClassName: StudentInputReader
 #Number of Methods: 2
-#LOC: -1
+#LOC: 18
 
 import pandas as pd
 from Student import Student
@@ -25,7 +25,6 @@ class StudentInputReader:
         desc = file.Description
         for i in range(1, len(file)):
             studentList.append(Student(ids[i],names[i],surnames[i],desc[i]))
-        print(studentList)
         return studentList
 
 
