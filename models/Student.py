@@ -14,5 +14,7 @@ class Student:
     def __str__(self):
         return f'<{self.name} {self.surname} >'
 
+    def getPollAnswers(self):
+        return self.pollAnswers
     def addToPollAnswers(self, pollAnswers):
         self.pollAnswers.append(pollAnswers)
