@@ -1,3 +1,9 @@
+#ClassName:KeyMaker
+#NumberofMethods:2
+#NumberofDomainMehods:1
+#LineOfCodes:17
+#isDomain:False
+
 import pandas as pd
 from Poll import Poll
 from Question import Question
@@ -10,7 +16,7 @@ class KeyMaker:
 
     def makeKeys(self):
         file = pd.read_excel(self.filename, index_col=None, header=None)
-        i= -1
+        i = -1
         polls = []
         for row in range(0,file.shape[0]):
             if pd.isnull(file.iat[row,1]):
