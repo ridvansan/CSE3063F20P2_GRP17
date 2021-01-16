@@ -1,4 +1,4 @@
-from StudentInputReader import StudentInputReader
+from inputReaders.StudentInputReader import StudentInputReader
 
 studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
 studentList = studentInputReader.getStudentList()
