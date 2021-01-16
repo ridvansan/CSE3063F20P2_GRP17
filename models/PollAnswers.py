@@ -1,7 +1,7 @@
 
 class PollAnswers:
     def __init__(self, pollname, dateTime):
-        self.poll = pollname
+        self.pollname= pollname
         self.dateTime = dateTime
         self.studentAnswers = []
 
