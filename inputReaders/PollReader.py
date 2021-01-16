@@ -4,7 +4,7 @@ from models.PollAnswers import PollAnswers
 from models.StudentAnswer import StudentAnswer
 
 
-class InputHandler:
+class PollReader:
 
     def __init__(self, filename):
         self.filename = filename
@@ -13,8 +13,8 @@ class InputHandler:
 
     def readPolls(self, studentList):
         self.studentList = studentList
-        with open(self.filename, 'r') as file:
-            lines = csv.reader(file)
+        with open(self.filename, encoding="utf8") as file:
+            lines = csv.reader(file, delimiter= ',')
 
             for line in lines:
                 for student in studentList:
@@ -35,4 +35,4 @@ class InputHandler:
                         student.addToPollAnswers(pollAnswers)
                         break
 
-
+        file.close()
