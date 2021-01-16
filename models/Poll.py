@@ -1,3 +1,6 @@
+from abc import abstractmethod
+
+
 class Poll:
 
     def __init__(self, name, questionList):
@@ -9,3 +12,10 @@ class Poll:
 
     def __str__(self):
         return f'{self.name} <{self.questionlist}>\n '
+
+    @abstractmethod
+    def analyze(self):
+        pass
+
+
+
