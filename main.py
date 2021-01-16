@@ -1,6 +1,5 @@
-from inputReaders.StudentInputReader import StudentInputReader
 from inputReaders.PollReader import PollReader
-from models.PollAnswer import PollAnswer
+from inputReaders.StudentInputReader import StudentInputReader
 from inputReaders.KeyMaker import KeyMaker
 
 studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
@@ -16,9 +15,14 @@ for student in studentListWithAnswers:
             print(studentAnswer.answertext + ", ")
     print("\n")
 
+k = KeyMaker('assets/answer_monday.xls')
+polls = k.makeKeys()
 
-#k = KeyMaker('assets/answer_monday.xls')
-#k.makeKeys()
+pollReader.readQuestionFrequencies(polls)
+
+for poll in polls:
+    poll.makeHistogram()
+
 #print(k)
 #input = InputHandler("poll.csv")
 #keys = KeyMaker("Keys.csv")

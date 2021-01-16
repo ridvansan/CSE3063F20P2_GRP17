@@ -1,5 +1,5 @@
 from abc import abstractmethod
-
+import matplotlib.pyplot as plt
 
 class Poll:
 
@@ -29,3 +29,10 @@ class Poll:
             self.answers[answer] += 1
         else:
             self.answers[answer] = 1
+
+    def makeHistogram(self):
+            plt.xlabel = self.answers.keys()
+            plt.ylabel = self.answers.values()
+            plt.hist()
+            plt.show()
+
