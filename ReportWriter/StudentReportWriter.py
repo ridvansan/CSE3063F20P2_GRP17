@@ -25,7 +25,7 @@ class StudentReportWriter:
         sheet1.write(0, 2, 'Attendance Rate')
         i = 1
         while i < len(self.studentList):
-            sheet1.write(i, 2, self.attendance_rate())
+            sheet1.write(i, 2, self.attendance_rate(self.studentList[i]))
             i += 1
 
         sheet1.write(0, 3, 'Attendance Percentage')
@@ -36,8 +36,10 @@ class StudentReportWriter:
         i = 1
         wb.save("CSE3063_studentReport.xlsx")
 
-    def number_of_attendance_polls(self):
-        return 0
+    def number_of_attendance_polls(self, student):
+        numberOfAttendance = 0
+
+        return numberOfAttendance
 
     def attendance_rate(self):
         return 0

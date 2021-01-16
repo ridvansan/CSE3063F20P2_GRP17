@@ -25,10 +25,13 @@ class PollReportWriter:
         successPercentageColumn = i
         sheet1.write(0, i, 'Success Percentage')
 
-        j = 1
-        while j < len(self.studentList):
-            sheet1.write(j, numofQuestionsColumn, self.number_of_questions())
-            j += 1
+        k = 0
+        while k < len(self.pollList):
+            j = 1
+            while j < len(self.studentList):
+                sheet1.write(j, numofQuestionsColumn, self.number_of_questions(self.pollList[k]))
+                j += 1
+            k += 1
 
         j = 1
         while j < len(self.studentList):
@@ -40,8 +43,12 @@ class PollReportWriter:
             sheet1.write(j, successPercentageColumn, self.success_percentage())
             j += 1
 
-    def number_of_questions(self):
-        return 0
+    def number_of_questions(self, poll):
+        numberOfQuestions = 0
+        i = 0
+        while i < len(poll.questionlist):
+            numberOfQuestions += 1
+        return numberOfQuestions
 
     def success_rate(self):
         return 0
