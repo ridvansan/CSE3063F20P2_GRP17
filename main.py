@@ -1,6 +1,6 @@
 from StudentInputReader import StudentInputReader
 
-students = StudentInputReader("CES3063_Fall2020_rptSinifListesi.XLS")
+students = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
 students.getStudentList()
 print(students)
 #input = InputHandler("poll.csv")
