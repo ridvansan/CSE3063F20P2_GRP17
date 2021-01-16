@@ -1,5 +1,7 @@
 import pandas as pd
 from Poll import Poll
+from Question import Question
+from Answer import Key
 
 class KeyMaker:
 
@@ -7,16 +9,17 @@ class KeyMaker:
         self.filename = filename
 
     def makeKeys(self):
-        key = pd.read_excel(self.filename,index_col=None,header=None)
-        #key = key.rename(columns={"0": "Question", "1": "Answer"})
-        print(key.shape[0])
-
-        headerRows = []
+        file = pd.read_excel(self.filename, index_col=None, header=None)
+        i= -1
         polls = []
-        for row in range(0,key.shape[0]):
-            if pd.isnull(key.iat[row,1]):
-                poll = Poll(key.iat[row,0])
-        return 0
+        for row in range(0,file.shape[0]):
+            if pd.isnull(file.iat[row,1]):
+                polls.append(Poll((file.iat[row,0])))
+                i += 1
+            else:
+                question = Question(file.iat[row,0])
+                key = Key(file.iat[row,1])
+                question.keys.append(key)
+                polls[i].questionlist.append(question)
 
-k = KeyMaker("assets/answer_monday.xlsx")
-k.makeKeys()
+        return polls
