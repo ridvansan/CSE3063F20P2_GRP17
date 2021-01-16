@@ -25,6 +25,7 @@ class PollReader:
                     pollName = ''.join(i for i in str(line[1]).lower() if not i.isdigit())
                     # if lowercased student name is in the studentList
                     if fullName == pollName:
+                        print("aaa")
                         #create pollAnswers
                         pollAnswers = PollAnswers(self.filename, line[3])
 
