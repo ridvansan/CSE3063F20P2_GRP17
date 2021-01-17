@@ -1,7 +1,6 @@
-
 class Student:
 
-    def __init__(self,studentID,name,surname,desc):
+    def __init__(self, studentID, name, surname, desc):
         self.studentID = studentID
         self.name = name
         self.surname = surname
@@ -16,15 +15,16 @@ class Student:
 
     def getPollAnswers(self):
         return self.pollAnswers
+
     def addToPollAnswers(self, pollAnswers):
         self.pollAnswers.append(pollAnswers)
 
-    def getAttendance(self,polls):
+    def getAttendance(self, polls):
         pollCount = len(polls)
         studentPollCount = len(self.pollAnswers)
         return '%d of %d' % (studentPollCount, pollCount)
 
-    def getSuccess(self,polls):
+    def getSuccess(self, polls):
         for poll in polls:
             for pollanswer in self.pollAnswers:
                 if pollanswer.poll.name == poll.name:
@@ -44,7 +44,7 @@ class Student:
                         except:
                             pass
 
-                    rate = t/len(keyAnswers)
-                    print(self.name,self.surname, rate*100)
+                    rate = t / len(keyAnswers)
+                    print(self.name, self.surname, rate * 100)
                     break
         return 0

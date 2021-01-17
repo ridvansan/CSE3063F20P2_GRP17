@@ -3,7 +3,7 @@ from xlwt import Workbook
 
 class PollReportWriter:
 
-    def __init__(self, pollList, studentList):
+    def __init__(self, studentList,pollList):
         self.pollList = pollList
         self.studentList = studentList
 
