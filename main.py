@@ -11,6 +11,7 @@ studentList = studentInputReader.getStudentList()
 keyMaker = KeyMaker('assets/keys')
 polls = keyMaker.makeKeysinDirectory()
 
+
 pollReader = PollReader("assets/pollReports")
 pollReader.readAnswersAtDirectory(studentList, polls)
 pollReader.readQuestionFrequencies("assets/pollReports/CSE3063_20201123_Mon_zoom_PollReport.csv", polls)
@@ -26,12 +27,11 @@ for key, value in pollReader.pollsOfStudents.items():
     currentStudentID = key.studentID
     absencePollListOfCurrentStudent = pollReader.Diff(polls, value)
 
-    print("student id: %d ", currentStudentID)
+    print(f"student id: {currentStudentID} ")
     for absencePoll in absencePollListOfCurrentStudent:
-        print("poll names: %s", absencePoll.name)
+        print(f"poll names: {absencePoll.name}")
     print("\n")
-    print("number of absences of that student:")
-    print(len(absencePollListOfCurrentStudent))
+    print(f"number of absences of that student: {len(absencePollListOfCurrentStudent)}")
 
 
 a = PollReportWriter(studentList, polls)
