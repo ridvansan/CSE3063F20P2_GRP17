@@ -1,5 +1,6 @@
 import csv
 
+from NameComparator import NameComparator
 from models.PollAnswer import PollAnswer
 from models.AttendancePoll import AttendancePoll
 from models.StudentAnswer import StudentAnswer
@@ -12,8 +13,10 @@ class PollReader:
         self.filename = filename
         self.studentList = []
 
+
     def readAnswers(self, studentList, polls):
         self.studentList = studentList
+        nameComparator = NameComparator()
         with open(self.filename, encoding="utf-8") as file:
             lines = csv.reader(file, delimiter=',')
 
@@ -24,7 +27,7 @@ class PollReader:
                 for student in studentList:
                     fullName = student.name + " " + student.surname
                     userName = ''.join(i for i in str(line[1]) if not i.isdigit())
-                    if fullName.casefold() == userName.casefold():
+                    if nameComparator.isSameName(fullName,userName):
                         s = student
                         # print(s.name)
                         break
