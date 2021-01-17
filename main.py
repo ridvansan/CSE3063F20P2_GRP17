@@ -1,6 +1,7 @@
 from inputReaders.PollReader import PollReader
 from inputReaders.StudentInputReader import StudentInputReader
 from inputReaders.KeyMaker import KeyMaker
+from ReportWriter.PollReportWriter import PollReportWriter
 
 studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
 studentList = studentInputReader.getStudentList()
@@ -20,6 +21,11 @@ pollReader.readQuestionFrequencies(polls)
 for poll in polls:
     poll.makeHistogram()
 
+for s in studentList:
+    print(s.name, s.getAttendance(polls))
+
+a = PollReportWriter(polls,studentList)
+a.success_rate()
 #print(k)
 #input = InputHandler("poll.csv")
 #keys = KeyMaker("Keys.csv")
