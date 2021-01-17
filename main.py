@@ -11,25 +11,14 @@ studentList = studentInputReader.getStudentList()
 k = KeyMaker('assets/answer_monday.xls')
 polls = k.makeKeys()
 
+
 pollReader = PollReader("assets/CSE3063_20201123_Mon_zoom_PollReport.csv")
 pollReader.readAnswers(studentList, polls)
-studentListWithAnswers = pollReader.studentList
 
-pollReader.readQuestionFrequencies(polls)
-print("\n")
-for poll in polls:
-    print(poll.name)
-    #poll.makeHistogram()
+#studentListWithAnswers = pollReader.studentList
 
-a = PollReportWriter(studentList,polls)
-a.success_rate()
-#print(k)
-#input = InputHandler("poll.csv")
-#keys = KeyMaker("Keys.csv")
+#pollReader.readQuestionFrequencies(polls)
 
-#StudentReport = StudentReportWriter(students,input,keys)
-#PollReport = PollReportWriter(students,input,keys)
 
-#StudentReport.writeto("studentreport.xlsx")
-#PollReport.writeto("pollreport.xlsx")
-
+#a = PollReportWriter(studentList,polls)
+#a.success_rate()

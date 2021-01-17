@@ -13,7 +13,6 @@ class PollReader:
         self.filename = filename
         self.studentList = []
 
-
     def readAnswers(self, studentList, polls):
         self.studentList = studentList
         nameComparator = NameComparator()
@@ -29,7 +28,7 @@ class PollReader:
                     userName = ''.join(i for i in str(line[1]) if not i.isdigit())
                     if nameComparator.isSameName(fullName,userName):
                         s = student
-                        # print(s.name)
+                        #print(s.name)
                         break
 
                 if s == None:
@@ -55,7 +54,6 @@ class PollReader:
 
         file.close()
 
-
     def readQuestionFrequencies(self, polls):
         with open(self.filename, encoding="utf8") as file:
             lines = csv.reader(file, delimiter=',')
@@ -72,19 +70,22 @@ class PollReader:
                     if pollQuestions == questionNames:
                         for j in range(5, len(line), 2):
                             poll.insertAnswer(line[j])
-
         file.close()
+
     def getCorrespondingPoll(self, questionList, date, polls):
         poll = None
         if questionList[0] == "Are you attending this lecture?":
             # this is attendance poll
             attendancePoll = AttendancePoll("attendance", date, questionList)
+
             if attendancePoll not in polls:
                 polls.append(attendancePoll)
             poll = attendancePoll
+
         else:
             for p in polls:
                 if p.getQuestionNames().__eq__(questionList):
+                    #print(p.name)
                     poll = p
                     break
         return poll
