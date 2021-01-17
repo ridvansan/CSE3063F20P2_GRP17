@@ -17,12 +17,10 @@ pollReader.readQuestionFrequencies("assets/pollReports/CSE3063_20201123_Mon_zoom
 for poll in polls:
  if not isinstance(poll, AttendancePoll):
     poll.makeHistogram()
-# attendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
-# attendanceReportWriter.write_output_to_file()
 
-#
 
-pollReader.setPollsOfStudents()  # pollReaderın attributelarında her student ın girdiği pollar var
+
+pollReader.setPollsOfStudents()
 
 for key, value in pollReader.pollsOfStudents.items():
     currentStudentID = key.studentID
