@@ -15,7 +15,6 @@ class PollReader:
 
     def readAnswers(self, studentList, polls):
         self.studentList = studentList
-
         with open(self.filename, encoding="utf-8") as file:
             lines = csv.reader(file, delimiter=',')
 
@@ -40,18 +39,27 @@ class PollReader:
                     questionList.append(line[i])
                 questionList.pop()
 
+                ## date: [Nov 23], [2020 10:41:25]
+                date = line[3].split(',')
+                date = date[0]  # date = 'Nov 23'
                 poll = None
-                for p in polls:
-                    if p.getQuestionNames.__eq__(questionList):
-                        poll = p
-                        break
+                if questionList[0] == "Are you attending this lecture?":
+                    # this is attendance poll
+                    attendancePoll = AttendancePoll("attendance", date, questionList)
+                    if attendancePoll not in polls:
+                        polls.append(attendancePoll)
+                    poll = attendancePoll
+                else:
+                    for p in polls:
+                        if p.getQuestionNames().__eq__(questionList):
+                            poll = p
+                            break
 
                 answerList = []
                 for i in range(5, len(line), 2):
                     answerList.append(line[i])
 
-                dateTime = line[3]
-                pollAnswer = PollAnswer(poll, dateTime)
+                pollAnswer = PollAnswer(poll, date)
                 for ans in answerList:
                     pollAnswer.addToStudentAnswers(StudentAnswer(ans))
                 s.addToPollAnswers(pollAnswer)

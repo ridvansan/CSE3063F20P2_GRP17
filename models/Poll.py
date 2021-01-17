@@ -21,7 +21,7 @@ class Poll:
     def getQuestionNames(self):
         questionNames = []
         for question in self.questionlist:
-            questionNames.append(question.name)
+            questionNames.append(question)
         return questionNames
 
     def insertAnswer(self, answer):

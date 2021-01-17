@@ -18,7 +18,8 @@ studentListWithAnswers = pollReader.studentList
 pollReader.readQuestionFrequencies(polls)
 
 for poll in polls:
-    poll.makeHistogram()
+    print(poll.name)
+    #poll.makeHistogram()
 
 #print(k)
 #input = InputHandler("poll.csv")
