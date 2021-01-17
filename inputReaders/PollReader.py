@@ -35,7 +35,7 @@ class PollReader:
                 if s == None:
                     print("Didnt found", line[1], "on poll list skipping")
                     continue
-
+                s.email = line[2]
                 questionList = []
                 self.getQandA(4, 'Q', questionList, line)
                 questionList.pop()

@@ -1,49 +1,30 @@
 from xlwt import Workbook
-
+import pandas as pd
 
 class PollReportWriter:
 
-    def __init__(self, studentList, pollList):
+    def __init__(self, studentList,pollList):
         self.pollList = pollList
         self.studentList = studentList
 
-    def write_output_to_file(self):
-        i = 1
-        while i < len(self.pollList):
-            wb = Workbook()
-            sheet1 = wb.add_sheet(self.pollList[i].name)
-            m = 1
-            numofQuestionsColumn = m
-            sheet1.write(0, m, 'Number Of Questions')
-            m += 1
-            successRateColumn = m
-            sheet1.write(0, m, 'Success Rate')
-            m += 1
-            successPercentageColumn = m
-            sheet1.write(0, m, 'Success Percentage')
+    def quizReport(self):
+        for poll in self.pollList:
+            index = ["studentID", "name", "surname", "email"]
+            data = []
+            for question in poll.getQuestionNames():
+                index.append(question)
+            index.append("Sucess Rate")
+            index.append("Sucess Percentage")
+            for student in self.studentList:
+                status = student.getStatus(poll)
+                if len(status) > 0:
+                    data.append(status)
 
-            j = 1
-            while j < len(self.studentList):
-                sheet1.write(j, numofQuestionsColumn, self.number_of_questions(self.pollList[i]))
-                j += 1
 
-            j = 1
-            while j < len(self.studentList):
-                sheet1.write(j, successRateColumn, self.success_rate())
-                j += 1
+            frame = pd.DataFrame(data, columns=index)
+            frame.to_excel(poll.name + ".xlsx")
 
-            j = 1
-            while j < len(self.studentList):
-                sheet1.write(j, successPercentageColumn, self.success_percentage())
-                j += 1
-            filename = "output/CSE3063_" + self.pollList.name + ".xlsx"
-            wb.save(filename)
 
-    def number_of_questions(self, poll):
-        numberOfQuestions = 0
-        while numberOfQuestions < len(poll.questionlist):
-            numberOfQuestions += 1
-        return numberOfQuestions
 
     def success_rate(self):
         successrates = []
