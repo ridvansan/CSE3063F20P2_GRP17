@@ -31,7 +31,10 @@ class Poll:
             self.answers[answer] = 1
 
     def makeHistogram(self):
-            for value in self.answers.values():
-                print(str(value) + ",")
+        pass
+        #for key in self.answers.keys():
+            #print(key,self.answers[key])
+            #for value in self.answers.values():
+            #    print(,str(value) + ",")
             #np.histogram(np.arange(10), bins=np.array(self.answers.values()))
 

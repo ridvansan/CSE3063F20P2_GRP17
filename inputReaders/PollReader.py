@@ -4,19 +4,6 @@ from models.PollAnswer import PollAnswer
 from models.StudentAnswer import StudentAnswer
 from models.Poll import Poll
 
-#YAZ BURAYA AKIL
-"""
-    IF QUESTIONS[0] == 'Attending Lecture':
-        #CONSTRUCT ATTANDENCE OBJECT
-    ELSE
-        CEVAPLARI LİSTELE POLLARDAN SORU LİSTELERİNİ AL VE KARŞILAŞTIR
-        UYGUN POLL U BUL
-        BU POLL U POLLANSWERSA AT
-        ANSWERLARI LİSTELE POLLANSWERSA AT
-    
-"""
-
-
 
 class PollReader:
 
@@ -27,28 +14,36 @@ class PollReader:
 
     def readAnswers(self, studentList, polls):
         self.studentList = studentList
-        with open(self.filename, encoding="utf8") as file:
-            lines = csv.reader(file, delimiter= ',')
+
+        with open(self.filename, encoding="utf-8") as file:
+            lines = csv.reader(file, delimiter=',')
 
             for line in lines:
                 if line[1] == "User Name":
                     continue
                 s = None
                 for student in studentList:
-                    fullName = str(student.name + " " + student.surname).lower()
-                    userName = ''.join(i for i in str(line[1]).lower() if not i.isdigit())
-                    if fullName == userName:
+                    fullName = student.name + " " + student.surname
+                    userName = ''.join(i for i in str(line[1]) if not i.isdigit())
+                    if fullName.casefold() == userName.casefold():
                         s = student
-                        print(s.name)
+                        #print(s.name)
                         break
+
+                if s == None:
+                    print("Didnt found",line[1],"on poll list skipping")
+                    continue
 
                 questionList = []
                 for i in range(4, len(line), 2):
-                    questionList.append(i)
+                    questionList.append(line[i])
+                questionList.pop()
+
                 poll = None
-                for poll in polls:
-                    if poll.getQuestionNames == questionList:
-                        poll = poll
+                for p in polls:
+                    if p.getQuestionNames.__eq__(questionList):
+                        poll = p
+                        break
 
                 answerList = []
                 for i in range(5, len(line), 2):
@@ -64,7 +59,6 @@ class PollReader:
 
 
     def readQuestionFrequencies(self, polls):
-
         with open(self.filename, encoding="utf8") as file:
             lines = csv.reader(file, delimiter =',')
             for line in lines:

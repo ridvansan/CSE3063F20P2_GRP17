@@ -4,18 +4,14 @@ from inputReaders.KeyMaker import KeyMaker
 
 studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
 studentList = studentInputReader.getStudentList()
-pollReader = PollReader("assets/CSE3063_20201123_Mon_zoom_PollReport.csv")
+
 k = KeyMaker('assets/answer_monday.xls')
 polls = k.makeKeys()
+
+pollReader = PollReader("assets/CSE3063_20201123_Mon_zoom_PollReport.csv")
 pollReader.readAnswers(studentList, polls)
 studentListWithAnswers = pollReader.studentList
 
-for student in studentListWithAnswers:
-    print(student.name + " " + student.surname)
-    for answer in student.getPollAnswers():
-        for studentAnswer in answer.studentAnswers:
-            print(studentAnswer.answertext + ", ")
-    print("\n")
 
 
 
