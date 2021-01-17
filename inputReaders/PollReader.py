@@ -1,6 +1,7 @@
 import csv
 
 from NameComparator import NameComparator
+from models.Anomaly import Anomaly
 from models.PollAnswer import PollAnswer
 from models.AttendancePoll import AttendancePoll
 from models.Question import Question
@@ -43,10 +44,11 @@ class PollReader:
 
                 if s is None:
                     print("Anomaly: ", line[1], ' | ', line[2], " on poll list skipping")
-                    self.anomalies.append({
-                        'name': line[1],
-                        'email': line[2]
-                    })
+                    anomaly = Anomaly(
+                        line[1],
+                        line[2]
+                    )
+                    self.anomalies.append(anomaly)
                     continue
 
                 questionList = []
