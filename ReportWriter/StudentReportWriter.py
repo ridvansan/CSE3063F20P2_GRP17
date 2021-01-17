@@ -36,13 +36,3 @@ class StudentReportWriter:
         i = 1
         wb.save("CSE3063_studentReport.xlsx")
 
-    def number_of_attendance_polls(self, student):
-        numberOfAttendance = 0
-
-        return numberOfAttendance
-
-    def attendance_rate(self):
-        return 0
-
-    def attendance_percentage(self):
-        return 0
