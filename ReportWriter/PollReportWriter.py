@@ -1,5 +1,6 @@
 from xlwt import Workbook
 import pandas as pd
+from models.AttendancePoll import AttendancePoll
 
 class PollReportWriter:
 
@@ -9,6 +10,8 @@ class PollReportWriter:
 
     def quizReport(self):
         for poll in self.pollList:
+            if isinstance(poll,AttendancePoll):
+                continue
             index = ["studentID", "name", "surname", "email"]
             data = []
             for question in poll.getQuestionNames():
