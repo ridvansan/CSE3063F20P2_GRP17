@@ -41,18 +41,7 @@ class PollReader:
                 ## date: [Nov 23], [2020 10:41:25]
                 date = line[3].split(',')
                 date = date[0]  # date = 'Nov 23'
-                poll = None
-                if questionList[0] == "Are you attending this lecture?":
-                    # this is attendance poll
-                    attendancePoll = AttendancePoll("attendance", date, questionList)
-                    if attendancePoll not in polls:
-                        polls.append(attendancePoll)
-                    poll = attendancePoll
-                else:
-                    for p in polls:
-                        if p.getQuestionNames().__eq__(questionList):
-                            poll = p
-                            break
+                poll = self.getCorrespondingPoll(questionList, date, polls)
 
                 answerList = []  # Students answer not the answer key.
                 self.getQandA(5, 'A', answerList, line)

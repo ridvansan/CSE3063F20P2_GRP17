@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from models.AttendancePoll import AttendancePoll
 import matplotlib.pyplot as plt
 import numpy as np
 class Poll:
@@ -30,8 +31,11 @@ class Poll:
         else:
             self.answers[answer] = 1
 
-    def makeHistogram(self):
-        pass
+    def makeHistogram(self, poll):
+        if isinstance(poll, AttendancePoll):
+            bins = range(0, len(poll.answers), 1)
+            data = poll.answers.values()
+            np.histogram(data, bins=bins)
         #for key in self.answers.keys():
             #print(key,self.answers[key])
             #for value in self.answers.values():
