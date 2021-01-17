@@ -1,4 +1,4 @@
-from models import AttendancePoll
+from models.AttendancePoll import AttendancePoll
 
 class Student:
 
@@ -36,7 +36,6 @@ class Student:
         return '%d of %d' % (studentsAttendance, attandancePollCounter)
 
     def getSuccess(self, polls):
-        # TODO NEEDS TO BE TESTED EXPERIMENTAL CODE (especially for isinstance thing)
         for poll in polls:
             if isinstance(poll, AttendancePoll):
                 continue
@@ -62,4 +61,4 @@ class Student:
                     rate = correctQuestionCount / len(keyAnswers)
                     print(self.name, self.surname, rate * 100)
                     break
-        return 0
+        return rate

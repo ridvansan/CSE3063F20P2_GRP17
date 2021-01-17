@@ -3,11 +3,11 @@ from xlwt import Workbook
 
 class PollReportWriter:
 
-    def __init__(self, studentList,pollList):
+    def __init__(self, studentList, pollList):
         self.pollList = pollList
         self.studentList = studentList
 
-    def poll_report(self):
+    def write_output_to_file(self):
         i = 1
         while i < len(self.pollList):
             wb = Workbook()
@@ -36,13 +36,12 @@ class PollReportWriter:
             while j < len(self.studentList):
                 sheet1.write(j, successPercentageColumn, self.success_percentage())
                 j += 1
-            filename = "CSE3063_" + self.pollList.name + ".xlsx"
+            filename = "output/CSE3063_" + self.pollList.name + ".xlsx"
             wb.save(filename)
 
     def number_of_questions(self, poll):
         numberOfQuestions = 0
-        i = 0
-        while i < len(poll.questionlist):
+        while numberOfQuestions < len(poll.questionlist):
             numberOfQuestions += 1
         return numberOfQuestions
 

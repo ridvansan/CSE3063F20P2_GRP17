@@ -31,7 +31,6 @@ class Poll:
             self.answers[answer] = 1
 
     def makeHistogram(self, poll):
-
             bins = range(0, len(poll.answers), 1)
             data = poll.answers.values()
             np.histogram(data, bins=bins)

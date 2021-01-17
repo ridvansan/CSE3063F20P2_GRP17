@@ -3,6 +3,7 @@ import csv
 from NameComparator import NameComparator
 from models.PollAnswer import PollAnswer
 from models.AttendancePoll import AttendancePoll
+from models.Question import Question
 from models.StudentAnswer import StudentAnswer
 from models.Poll import Poll
 
@@ -26,9 +27,9 @@ class PollReader:
                 for student in studentList:
                     fullName = student.name + " " + student.surname
                     userName = ''.join(i for i in str(line[1]) if not i.isdigit())
-                    if nameComparator.isSameName(fullName,userName):
+                    if nameComparator.isSameName(fullName, userName):
                         s = student
-                        #print(s.name)
+                        # print(s.name)
                         break
 
                 if s == None:
@@ -45,15 +46,21 @@ class PollReader:
                 poll = None
                 if questionList[0] == "Are you attending this lecture?":
                     # this is attendance poll
-                    attendancePoll = AttendancePoll("attendance", date, questionList)
+                    questions = [Question(questionList[0])]
+                    attendancePoll = AttendancePoll("attendance", date, questions)
                     if attendancePoll not in polls:
                         polls.append(attendancePoll)
                     poll = attendancePoll
                 else:
                     for p in polls:
-                        if p.getQuestionNames().__eq__(questionList):
+                        # questionList is a String list.
+                        if p.getQuestionNames() == questionList:
                             poll = p
                             break
+                if poll is None:
+                    print("Poll is none for questions: ",questionList)
+                    continue
+
                 answerList = []  # Students answer not the answer key.
                 self.getQandA(5, 'A', answerList, line)
 
@@ -86,7 +93,8 @@ class PollReader:
         poll = None
         if questionList[0] == "Are you attending this lecture?":
             # this is attendance poll
-            attendancePoll = AttendancePoll("attendance", date, questionList)
+            question = Question(questionList[0])
+            attendancePoll = AttendancePoll("attendance", date, [question])
 
             if attendancePoll not in polls:
                 polls.append(attendancePoll)
@@ -95,7 +103,7 @@ class PollReader:
         else:
             for p in polls:
                 if p.getQuestionNames().__eq__(questionList):
-                    #print(p.name)
+                    # print(p.name)
                     poll = p
                     break
         return poll

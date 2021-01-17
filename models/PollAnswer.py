@@ -1,5 +1,6 @@
 class PollAnswer:
     def __init__(self, poll, dateTime):
+        assert(poll is not None)
         self.poll = poll
         self.dateTime = dateTime
         self.studentAnswers = []
