@@ -54,9 +54,8 @@ class PollReader:
                             poll = p
                             break
 
-                answerList = []
-                for i in range(5, len(line), 2):
-                    answerList.append(line[i])
+                answerList = []  # Students answer not the answer key.
+                self.getQandA(5, 'A', answerList, line)
 
                 pollAnswer = PollAnswer(poll, date)
                 for ans in answerList:
@@ -82,4 +81,27 @@ class PollReader:
                     if pollQuestions == questionNames:
                         for j in range(5, len(line), 2):
                             poll.insertAnswer(line[j])
+
         file.close()
+    def getCorrespondingPoll(self, questionList, date, polls):
+        poll = None
+        if questionList[0] == "Are you attending this lecture?":
+            # this is attendance poll
+            attendancePoll = AttendancePoll("attendance", date, questionList)
+            if attendancePoll not in polls:
+                polls.append(attendancePoll)
+            poll = attendancePoll
+        else:
+            for p in polls:
+                if p.getQuestionNames().__eq__(questionList):
+                    poll = p
+                    break
+        return poll
+
+    def getQandA(self, startIndex, QorA, List, line):
+        if QorA == 'Q':
+            for i in range(startIndex, len(line), 2):
+                List.append(line[i])
+        else:
+            for i in range(startIndex, len(line), 2):
+                List.append(line[i])
