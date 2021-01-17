@@ -84,7 +84,6 @@ class Student:
                     studentTexts = []
                     for studentAnswer in studentAnswers:
                         studentTexts.append(studentAnswer)
-
                     if keyTexts[i] == studentTexts[i]:
                         status.append(1)
                         trueCount += 1
