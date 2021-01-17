@@ -50,9 +50,9 @@ class PollReader:
                     )
                     self.anomalies.append(anomaly)
                     continue
-
+                s.email = line[2]
                 questionList = []
-                self.getQandA(4, 'Q', questionList, line)
+                self.getQandA(4, questionList, line)
                 questionList.pop()
 
                 ## date: [Nov 23], [2020 10:41:25]
@@ -77,7 +77,7 @@ class PollReader:
                     continue
 
                 answerList = []  # Students answer not the answer key.
-                self.getQandA(5, 'A', answerList, line)
+                self.getQandA(5, answerList, line)
 
                 pollAnswer = PollAnswer(poll, date)
                 for ans in answerList:
@@ -123,10 +123,7 @@ class PollReader:
                     break
         return poll
 
-    def getQandA(self, startIndex, QorA, List, line):
-        if QorA == 'Q':
+    def getQandA(self, startIndex, List, line):
             for i in range(startIndex, len(line), 2):
                 List.append(line[i])
-        else:
-            for i in range(startIndex, len(line), 2):
-                List.append(line[i])
+

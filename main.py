@@ -16,11 +16,11 @@ pollReader = PollReader("assets/CSE3063_20201123_Mon_zoom_PollReport.csv")
 pollReader.readAnswers(studentList, polls)
 pollReader.readQuestionFrequencies(polls)
 
-attendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
-attendanceReportWriter.write_output_to_file()
+#attendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
+#attendanceReportWriter.write_output_to_file()
 
 #
 
 
-#a = PollReportWriter(studentList,polls)
-#a.success_rate()
+a = PollReportWriter(studentList,polls)
+a.quizReport()
