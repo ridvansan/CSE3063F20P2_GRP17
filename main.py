@@ -2,6 +2,7 @@ from ReportWriter.PollReportWriter import PollReportWriter
 from inputReaders.PollReader import PollReader
 from inputReaders.StudentInputReader import StudentInputReader
 from inputReaders.KeyMaker import KeyMaker
+from models.AttendancePoll import AttendancePoll
 from ReportWriter.StudentAttendanceReportWriter import StudentAttendanceReportWriter
 
 studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
@@ -14,12 +15,12 @@ polls = keyMaker.makeKeysinDirectory()
 pollReader = PollReader("assets/pollReports")
 pollReader.readAnswersAtDirectory(studentList, polls)
 #pollReader.readQuestionFrequencies(polls)
-
+for poll in polls:
+    print(poll.name)
+    if not isinstance(poll, AttendancePoll):
+        poll.makeHistogram(poll)
 #attendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
 #attendanceReportWriter.write_output_to_file()
 
-#
-
-
-a = PollReportWriter(studentList,polls)
-a.quizReport()
+#a = PollReportWriter(studentList,polls)
+#a.quizReport()

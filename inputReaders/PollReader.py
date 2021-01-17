@@ -128,8 +128,21 @@ class PollReader:
                     pollQuestions = poll.getQuestionNames()
 
                     if pollQuestions == questionNames:
+                        questionAnswers = []
                         for j in range(5, len(line), 2):
-                            poll.insertAnswer(line[j])
+                            questionAnswers.append(line[j])
+                        for index, answer in enumerate(questionAnswers):
+                            print(questionNames[index])
+                            if poll.answers[questionNames[index]] == None:
+                                answersForSpecificQuestion = {}
+                                answersForSpecificQuestion[answer] = 1
+                                poll.answers[questionNames[index]] = answersForSpecificQuestion
+                            else:
+                                if poll.answers[questionNames[index]] == None:
+                                    poll.answers[questionNames[index]][answer] = 1
+                                elif poll.answers[questionNames[index]][answer] != None:
+                                    poll.answers[questionNames[index]][answer] += 1
+                            #poll.insertAnswer(questionAnswers)
         file.close()
 
     def getCorrespondingPoll(self, questionList, date, polls):

@@ -35,6 +35,8 @@ class KeyMaker:
                 key = Key(file.iat[row, 1])
                 question.keys.append(key)
                 polls[i].questionlist.append(question)
+                #add questions as key to the answers dictionary
+                polls[i].answers.update({question.name : None})
 
         return polls
 

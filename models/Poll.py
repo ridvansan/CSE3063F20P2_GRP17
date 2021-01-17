@@ -21,15 +21,22 @@ class Poll:
             questionNames.append(question.name)
         return questionNames
 
-    def insertAnswer(self, answer):
-        if answer in self.answers:
-            self.answers[answer] += 1
-        else:
-            self.answers[answer] = 1
+    def insertAnswer(self, questionAnswers):
+        for questionAnswer in questionAnswers:
+            if questionAnswer in self.answers:
+                self.answers[questionAnswer] += 1
+            else:
+                self.answers[questionAnswer] = 1
 
     def makeHistogram(self, poll):
             bins = range(0, len(poll.answers), 1)
             data = poll.answers.values()
-            np.histogram(data, bins=bins)
+            for answers in poll.answers:
+                    print(str(answers) + " ")
+            plt.hist(data, density=True, bins=bins)
+            plt.xlabel = "answers"
+            plt.ylabel = "values"
+            plt.show()
+            print("siadjfaskdfasdfg")
 
 
