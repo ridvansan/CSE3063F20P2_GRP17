@@ -10,8 +10,7 @@ class PollReader:
 
     def __init__(self, filename):
         self.filename = filename
-
-    studentList = []
+        self.studentList = []
 
     def readAnswers(self, studentList, polls):
         self.studentList = studentList
@@ -27,11 +26,11 @@ class PollReader:
                     userName = ''.join(i for i in str(line[1]) if not i.isdigit())
                     if fullName.casefold() == userName.casefold():
                         s = student
-                        #print(s.name)
+                        # print(s.name)
                         break
 
                 if s == None:
-                    print("Didnt found",line[1],"on poll list skipping")
+                    print("Didnt found", line[1], "on poll list skipping")
                     continue
 
                 questionList = []
@@ -56,11 +55,11 @@ class PollReader:
 
     def readQuestionFrequencies(self, polls):
         with open(self.filename, encoding="utf8") as file:
-            lines = csv.reader(file, delimiter =',')
+            lines = csv.reader(file, delimiter=',')
             for line in lines:
-                #get question names:
+                # get question names:
                 questionNames = []
-                #store questionNames:
+                # store questionNames:
                 for i in range(4, len(line), 2):
                     questionNames.append(line[i])
                 questionNames.pop()
