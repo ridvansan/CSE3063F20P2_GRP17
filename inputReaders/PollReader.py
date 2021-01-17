@@ -48,7 +48,7 @@ class PollReader:
 
                 answerList = []
                 for i in range(5, len(line), 2):
-                    answerList.append(i)
+                    answerList.append(line[i])
 
                 dateTime = line[3]
                 pollAnswer = PollAnswer(poll, dateTime)
