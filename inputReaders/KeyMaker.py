@@ -8,14 +8,22 @@ import pandas as pd
 from models.Key import Key
 from models.Poll import Poll
 from models.Question import Question
+import os
 
 class KeyMaker:
 
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, directory):
+        self.directory = directory
 
-    def makeKeys(self):
-        file = pd.read_excel(self.filename, index_col=None, header=None)
+    def makeKeysinDirectory(self):
+        polls = []
+        keys = os.listdir(self.directory)
+        for key in keys:
+            polls.extend(self.makeKeys(key))
+        return polls
+
+    def makeKeys(self, filename):
+        file = pd.read_excel(self.directory + "/" + filename, index_col=None, header=None)
         i = -1
         polls = []
         for row in range(0, file.shape[0]):
