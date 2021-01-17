@@ -1,8 +1,6 @@
 from abc import abstractmethod
 import matplotlib.pyplot as plt
 import numpy as np
-
-
 class Poll:
 
     def __init__(self, name, questionList):
@@ -33,11 +31,13 @@ class Poll:
             self.answers[answer] = 1
 
     def makeHistogram(self, poll):
-        bins = range(0, len(poll.answers), 1)
-        data = poll.answers.values()
-        np.histogram(data, bins=bins)
-    # for key in self.answers.keys():
-    # print(key,self.answers[key])
-    # for value in self.answers.values():
-    #    print(,str(value) + ",")
-    # np.histogram(np.arange(10), bins=np.array(self.answers.values()))
+
+            bins = range(0, len(poll.answers), 1)
+            data = poll.answers.values()
+            np.histogram(data, bins=bins)
+        #for key in self.answers.keys():
+            #print(key,self.answers[key])
+            #for value in self.answers.values():
+            #    print(,str(value) + ",")
+            #np.histogram(np.arange(10), bins=np.array(self.answers.values()))
+
