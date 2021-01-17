@@ -21,19 +21,14 @@ class Student:
     def addToPollAnswers(self, pollAnswers):
         self.pollAnswers.append(pollAnswers)
 
-    def getAttendance(self, polls):
-        # TODO NEEDS TO BE TESTED EXPERIMENTAL CODE (especially for isinstance thing)
-        attandancePollCounter = 0
-        for poll in polls:
-            if isinstance(poll, AttendancePoll):
-                attandancePollCounter += 1
+    def getAttendance(self):
 
         studentsAttendance = 0
         for pollAnswer in self.pollAnswers:
             if isinstance(pollAnswer.poll, AttendancePoll):
                 studentsAttendance +=1
 
-        return '%d of %d' % (studentsAttendance, attandancePollCounter)
+        return studentsAttendance
 
     def getSuccess(self, polls):
         for poll in polls:

@@ -5,7 +5,6 @@ from models.PollAnswer import PollAnswer
 from models.AttendancePoll import AttendancePoll
 from models.Question import Question
 from models.StudentAnswer import StudentAnswer
-from models.Poll import Poll
 
 
 class PollReader:
@@ -13,6 +12,12 @@ class PollReader:
     def __init__(self, filename):
         self.filename = filename
         self.studentList = []
+        self.anomalies = []
+
+
+    def getAnomalies(self):
+        return self.anomalies
+
 
     def readAnswers(self, studentList, polls):
         self.studentList = studentList
@@ -20,20 +25,28 @@ class PollReader:
         with open(self.filename, encoding="utf-8") as file:
             lines = csv.reader(file, delimiter=',')
 
+            currentStudentListForPoll = []
+
             for line in lines:
                 if line[1] == "User Name":
                     continue
                 s = None
+
                 for student in studentList:
                     fullName = student.name + " " + student.surname
                     userName = ''.join(i for i in str(line[1]) if not i.isdigit())
                     if nameComparator.isSameName(fullName, userName):
                         s = student
+                        currentStudentListForPoll.append(s)
                         # print(s.name)
                         break
 
-                if s == None:
-                    print("Didnt found", line[1], "on poll list skipping")
+                if s is None:
+                    print("Anomaly: ", line[1], ' | ', line[2], " on poll list skipping")
+                    self.anomalies.append({
+                        'name': line[1],
+                        'email': line[2]
+                    })
                     continue
 
                 questionList = []
@@ -58,7 +71,7 @@ class PollReader:
                             poll = p
                             break
                 if poll is None:
-                    print("Poll is none for questions: ",questionList)
+                    print("Poll is none for questions: ", questionList)
                     continue
 
                 answerList = []  # Students answer not the answer key.
