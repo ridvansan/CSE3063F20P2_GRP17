@@ -27,14 +27,3 @@ class PollReportWriter:
             frame = pd.DataFrame(data, columns=index)
             frame.to_excel(poll.name + ".xlsx")
 
-
-
-    def success_rate(self):
-        successrates = []
-
-        for student in self.studentList:
-            successrates.append(student.getSuccess(self.pollList))
-        return 0
-
-    def success_percentage(self):
-        return 0
