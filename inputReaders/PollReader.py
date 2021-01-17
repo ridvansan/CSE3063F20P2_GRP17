@@ -35,8 +35,7 @@ class PollReader:
                     continue
 
                 questionList = []
-                for i in range(4, len(line), 2):
-                    questionList.append(line[i])
+                self.getQandA(4, 'Q', questionList, line)
                 questionList.pop()
 
                 ## date: [Nov 23], [2020 10:41:25]
