@@ -7,6 +7,7 @@ class Student:
         self.name = name
         self.surname = surname
         self.desc = desc
+        self.email = None
         self.pollAnswers = []
 
     def __repr__(self):
@@ -57,3 +58,39 @@ class Student:
                     print(self.name, self.surname, rate * 100)
                     break
         return rate
+
+    def getStatus(self, poll):
+        status = []
+        for pollAnswer in self.pollAnswers:
+            if pollAnswer.poll.name == poll.name:
+                status.append(self.studentID)
+                status.append(self.name)
+                status.append(self.surname)
+                status.append(self.email)
+                studentAnswers = []
+                keys = []
+                for question in poll.questionlist:
+                    keys.append(question.keys)
+                for answer in pollAnswer.studentAnswers:
+                    studentAnswers.append(answer.answertext)
+                trueCount = 0
+                for i in range(len(keys)):
+                    keyTexts= []
+                    for k in keys:
+                        for l in k:
+                            keyTexts.append(l.answertext)
+
+
+                    studentTexts = []
+                    for studentAnswer in studentAnswers:
+                        studentTexts.append(studentAnswer)
+                    if keyTexts[i] == studentTexts[i]:
+                        status.append(1)
+                        trueCount += 1
+                    else:
+                        status.append(0)
+
+                status.append(str(trueCount)+ " of " + str(len(keys)))
+                status.append(trueCount/len(keys))
+
+        return status

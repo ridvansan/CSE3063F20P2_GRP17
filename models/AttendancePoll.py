@@ -7,9 +7,6 @@ class AttendancePoll(Poll):
         super().__init__(name, questionList)
         self.date = date
 
-    def analyze(self):
-        pass
-
     def __eq__(self, other):
         if isinstance(other, AttendancePoll):
             return self.date == other.date

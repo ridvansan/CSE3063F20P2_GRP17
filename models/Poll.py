@@ -1,5 +1,4 @@
-from abc import abstractmethod
-import matplotlib.pyplot as plt
+
 import numpy as np
 class Poll:
 
@@ -14,9 +13,7 @@ class Poll:
     def __str__(self):
         return f'{self.name} <{self.questionlist}>\n '
 
-    @abstractmethod
-    def analyze(self):
-        pass
+
 
     def getQuestionNames(self):
         questionNames = []

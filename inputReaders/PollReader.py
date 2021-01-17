@@ -1,6 +1,8 @@
 import csv
+import os
 
 from NameComparator import NameComparator
+from models.Anomaly import Anomaly
 from models.PollAnswer import PollAnswer
 from models.AttendancePoll import AttendancePoll
 from models.Question import Question
@@ -9,8 +11,8 @@ from models.StudentAnswer import StudentAnswer
 
 class PollReader:
 
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, directory):
+        self.directory = directory
         self.studentList = []
         self.anomalies = []
         self.pollsOfStudents = {}  # dictionary key: student value: Poll Array
@@ -41,10 +43,15 @@ class PollReader:
     def getAnomalies(self):
         return self.anomalies
 
-    def readAnswers(self, studentList, polls):
+    def readAnswersAtDirectory(self,studentList,polls):
+        reports = os.listdir(self.directory)
+        for report in reports:
+            self.readAnswers(studentList,polls,report)
+
+    def readAnswers(self, studentList, polls,filename):
         self.studentList = studentList
         nameComparator = NameComparator()
-        with open(self.filename, encoding="utf-8") as file:
+        with open(self.directory + "/" + filename, encoding="utf-8") as file:
             lines = csv.reader(file, delimiter=',')
 
             currentStudentListForPoll = []
@@ -65,14 +72,15 @@ class PollReader:
 
                 if s is None:
                     print("Anomaly: ", line[1], ' | ', line[2], " on poll list skipping")
-                    self.anomalies.append({
-                        'name': line[1],
-                        'email': line[2]
-                    })
+                    anomaly = Anomaly(
+                        line[1],
+                        line[2]
+                    )
+                    self.anomalies.append(anomaly)
                     continue
-
+                s.email = line[2]
                 questionList = []
-                self.getQandA(4, 'Q', questionList, line)
+                self.getQandA(4, questionList, line)
                 questionList.pop()
 
                 ## date: [Nov 23], [2020 10:41:25]
@@ -97,7 +105,7 @@ class PollReader:
                     continue
 
                 answerList = []  # Students answer not the answer key.
-                self.getQandA(5, 'A', answerList, line)
+                self.getQandA(5, answerList, line)
 
                 pollAnswer = PollAnswer(poll, date)
                 for ans in answerList:
@@ -143,10 +151,7 @@ class PollReader:
                     break
         return poll
 
-    def getQandA(self, startIndex, QorA, List, line):
-        if QorA == 'Q':
+    def getQandA(self, startIndex, List, line):
             for i in range(startIndex, len(line), 2):
                 List.append(line[i])
-        else:
-            for i in range(startIndex, len(line), 2):
-                List.append(line[i])
+
