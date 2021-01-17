@@ -1,6 +1,7 @@
 import csv
 
 from models.PollAnswer import PollAnswer
+from models.AttendancePoll import AttendancePoll
 from models.StudentAnswer import StudentAnswer
 from models.Poll import Poll
 
