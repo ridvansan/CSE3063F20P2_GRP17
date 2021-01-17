@@ -29,5 +29,13 @@ for key, value in pollReader.pollsOfStudents.items():
     currentStudentID = key.studentID
     absencePollListOfCurrentStudent = pollReader.Diff(polls, value)
 
+    print("student id: %d ", currentStudentID)
+    for absencePoll in absencePollListOfCurrentStudent:
+        print("poll names: %s", absencePoll.name)
+    print("\n")
+    print("number of absences of that student:")
+    print(len(absencePollListOfCurrentStudent))
+
+
 a = PollReportWriter(studentList, polls)
 a.quizReport()
