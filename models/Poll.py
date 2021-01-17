@@ -1,4 +1,4 @@
-
+import matplotlib.pyplot as plt
 import numpy as np
 class Poll:
 
@@ -28,15 +28,18 @@ class Poll:
             else:
                 self.answers[questionAnswer] = 1
 
-    def makeHistogram(self, poll):
-            bins = range(0, len(poll.answers), 1)
-            data = poll.answers.values()
-            for answers in poll.answers:
-                    print(str(answers) + " ")
-            plt.hist(data, density=True, bins=bins)
+    def makeHistogram(self):
+        for question in self.answers.values():
+            values = []
+            for data in question.values():
+                values.append(data)
+            bins = range(0, len(values), 1)
+            data = values
+            plt.hist(data)
             plt.xlabel = "answers"
             plt.ylabel = "values"
             plt.show()
-            print("siadjfaskdfasdfg")
+
+
 
 

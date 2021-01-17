@@ -108,8 +108,8 @@ class PollReader:
 
         file.close()
 
-    def readQuestionFrequencies(self, polls):
-        with open(self.filename, encoding="utf8") as file:
+    def readQuestionFrequencies(self, fileName, polls):
+        with open(fileName, encoding="utf8") as file:
             lines = csv.reader(file, delimiter=',')
             for line in lines:
                 # get question names:
@@ -119,6 +119,7 @@ class PollReader:
                     questionNames.append(line[i])
                 questionNames.pop()
                 for poll in polls:
+                  if not isinstance(poll, AttendancePoll):
                     pollQuestions = poll.getQuestionNames()
 
                     if pollQuestions == questionNames:
@@ -132,11 +133,12 @@ class PollReader:
                                 answersForSpecificQuestion[answer] = 1
                                 poll.answers[questionNames[index]] = answersForSpecificQuestion
                             else:
-                                if poll.answers[questionNames[index]] == None:
-                                    poll.answers[questionNames[index]][answer] = 1
-                                elif poll.answers[questionNames[index]][answer] != None:
+                                if poll.answers[questionNames[index]].get(answer) != None:
                                     poll.answers[questionNames[index]][answer] += 1
-                            #poll.insertAnswer(questionAnswers)
+                                else:
+                                    poll.answers[questionNames[index]].update({answer : 1})
+
+
         file.close()
 
     def getCorrespondingPoll(self, questionList, date, polls):
