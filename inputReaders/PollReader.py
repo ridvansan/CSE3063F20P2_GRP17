@@ -25,30 +25,24 @@ class PollReader:
         for student in self.studentList:
             currentStudentPolls = []
             for pollAnswer in student.getPollAnswers():
-                currentStudentPolls.append(pollAnswer.getPoll())
+                currentStudentPolls.append(pollAnswer.poll)
                 self.pollsOfStudents[student] = currentStudentPolls
-        print(self.setPollsOfStudents())
+        print(self.pollsOfStudents)
 
     def Diff(self, li1, li2):
         li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
         return li_dif
 
-    def getAbsencesOfPolls(self, allPolls):
-        self.setPollsOfStudents()
-        for key, value in self.pollsOfStudents:
-            differencesPolls = self.Diff(allPolls, value)  # bu studentın girmediği polları bulduk.
-            for diffPoll in differencesPolls:
-                self.absences[diffPoll] = [key]
 
     def getAnomalies(self):
         return self.anomalies
 
-    def readAnswersAtDirectory(self,studentList,polls):
+    def readAnswersAtDirectory(self, studentList, polls):
         reports = os.listdir(self.directory)
         for report in reports:
-            self.readAnswers(studentList,polls,report)
+            self.readAnswers(studentList, polls, report)
 
-    def readAnswers(self, studentList, polls,filename):
+    def readAnswers(self, studentList, polls, filename):
         self.studentList = studentList
         nameComparator = NameComparator()
         with open(self.directory + "/" + filename, encoding="utf-8") as file:
@@ -165,6 +159,5 @@ class PollReader:
         return poll
 
     def getQandA(self, startIndex, List, line):
-            for i in range(startIndex, len(line), 2):
-                List.append(line[i])
-
+        for i in range(startIndex, len(line), 2):
+            List.append(line[i])

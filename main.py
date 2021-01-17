@@ -22,5 +22,10 @@ for poll in polls:
 #attendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
 #attendanceReportWriter.write_output_to_file()
 
-#a = PollReportWriter(studentList,polls)
-#a.quizReport()
+#
+
+pollReader.setPollsOfStudents() # pollReaderın attributelarında her student ın girdiği pollar var
+
+
+a = PollReportWriter(studentList,polls)
+a.quizReport()
