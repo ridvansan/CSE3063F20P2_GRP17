@@ -13,7 +13,7 @@ polls = keyMaker.makeKeysinDirectory()
 
 pollReader = PollReader("assets/pollReports")
 pollReader.readAnswersAtDirectory(studentList, polls)
-pollReader.readQuestionFrequencies(polls)
+#pollReader.readQuestionFrequencies(polls)
 
 #attendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
 #attendanceReportWriter.write_output_to_file()
