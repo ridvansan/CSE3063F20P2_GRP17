@@ -13,11 +13,10 @@ polls = keyMaker.makeKeysinDirectory()
 
 pollReader = PollReader("assets/pollReports")
 pollReader.readAnswersAtDirectory(studentList, polls)
-# pollReader.readQuestionFrequencies(polls)
-# for poll in polls:
-# print(poll.name)
-# if not isinstance(poll, AttendancePoll):
-# poll.makeHistogram(poll)
+pollReader.readQuestionFrequencies("assets/pollReports/CSE3063_20201123_Mon_zoom_PollReport.csv", polls)
+for poll in polls:
+ if not isinstance(poll, AttendancePoll):
+    poll.makeHistogram()
 # attendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
 # attendanceReportWriter.write_output_to_file()
 
