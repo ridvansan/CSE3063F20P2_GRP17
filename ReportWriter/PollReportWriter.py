@@ -25,5 +25,5 @@ class PollReportWriter:
 
 
             frame = pd.DataFrame(data, columns=index)
-            frame.to_excel(poll.name + ".xlsx")
+            frame.to_excel("output/"+poll.name + "_report.xlsx")
 

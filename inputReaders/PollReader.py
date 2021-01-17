@@ -1,4 +1,5 @@
 import csv
+import os
 
 from NameComparator import NameComparator
 from models.Anomaly import Anomaly
@@ -10,8 +11,8 @@ from models.StudentAnswer import StudentAnswer
 
 class PollReader:
 
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, directory):
+        self.directory = directory
         self.studentList = []
         self.anomalies = []
 
@@ -19,11 +20,15 @@ class PollReader:
     def getAnomalies(self):
         return self.anomalies
 
+    def readAnswersAtDirectory(self,studentList,polls):
+        reports = os.listdir(self.directory)
+        for report in reports:
+            self.readAnswers(studentList,polls,report)
 
-    def readAnswers(self, studentList, polls):
+    def readAnswers(self, studentList, polls,filename):
         self.studentList = studentList
         nameComparator = NameComparator()
-        with open(self.filename, encoding="utf-8") as file:
+        with open(self.directory + "/" + filename, encoding="utf-8") as file:
             lines = csv.reader(file, delimiter=',')
 
             currentStudentListForPoll = []
