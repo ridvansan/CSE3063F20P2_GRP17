@@ -13,11 +13,33 @@ class PollReader:
         self.filename = filename
         self.studentList = []
         self.anomalies = []
+        self.pollsOfStudents = {}  # dictionary key: student value: Poll Array
+        self.absences = {}  # dictionary key: poll values: numbers of absences (int)
 
+    def getNumOfAbsenceForThatPoll(self, poll, pollStudentList):
+        return len(self.studentList) - len(pollStudentList)
+
+    def setPollsOfStudents(self):
+        for student in self.studentList:
+            currentStudentPolls = []
+            for pollAnswer in student.getPollAnswers():
+                currentStudentPolls.append(pollAnswer.getPoll())
+                self.pollsOfStudents[student] = currentStudentPolls
+        print(self.setPollsOfStudents())
+
+    def Diff(self, li1, li2):
+        li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
+        return li_dif
+
+    def getAbsencesOfPolls(self, allPolls):
+        self.setPollsOfStudents()
+        for key, value in self.pollsOfStudents:
+            differencesPolls = self.Diff(allPolls, value)  # bu studentın girmediği polları bulduk.
+            for diffPoll in differencesPolls:
+                self.absences[diffPoll] = [key]
 
     def getAnomalies(self):
         return self.anomalies
-
 
     def readAnswers(self, studentList, polls):
         self.studentList = studentList
