@@ -1,3 +1,5 @@
+import json
+
 from xlwt import Workbook
 import pandas as pd
 from models.AttendancePoll import AttendancePoll
@@ -26,4 +28,3 @@ class PollReportWriter:
 
             frame = pd.DataFrame(data, columns=index)
             frame.to_excel("output/"+poll.name + "_report.xlsx")
-

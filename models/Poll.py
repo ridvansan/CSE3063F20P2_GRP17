@@ -29,16 +29,33 @@ class Poll:
                 self.answers[questionAnswer] = 1
 
     def makeHistogram(self):
-        for question in self.answers.values():
-            values = []
-            for data in question.values():
-                values.append(data)
-            bins = range(0, len(values), 1)
-            data = values
-            plt.hist(data)
-            plt.xlabel = "answers"
-            plt.ylabel = "values"
-            plt.show()
+        for upperIndex, question in enumerate(self.answers.values()):
+            yAxis = []
+            xAxis = []
+            color = []
+            correctAnswer = self.questionlist[upperIndex].keys[0].text
+
+            for index, data in enumerate(question.values()):
+
+                val_list = list(question.values())
+                key_list = list(question.keys())
+                answerIndex = val_list.index(data)
+                answer = key_list[answerIndex]
+
+                if answer == correctAnswer:
+                    color.append('green')
+                else:
+                    color.append('blue')
+                if index < 6:
+                    yAxis.append(data)
+                    xAxis.append("a" + str(index))
+
+                plt.bar(xAxis, yAxis, color=color)
+                plt.xlabel = "answers"
+                plt.ylabel = "values"
+
+                png = "output/q" + str(upperIndex) + ".png"
+                plt.savefig(png)
 
 
 

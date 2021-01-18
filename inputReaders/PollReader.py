@@ -94,7 +94,6 @@ class PollReader:
                             poll = p
                             break
                 if poll is None:
-                    print("Poll is none for questions: ", questionList)
                     continue
 
                 answerList = []  # Students answer not the answer key.

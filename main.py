@@ -11,15 +11,9 @@ studentList = studentInputReader.getStudentList()
 keyMaker = KeyMaker('assets/keys')
 polls = keyMaker.makeKeysinDirectory()
 
-
 pollReader = PollReader("assets/pollReports")
 pollReader.readAnswersAtDirectory(studentList, polls)
 pollReader.readQuestionFrequencies("assets/pollReports/CSE3063_20201123_Mon_zoom_PollReport.csv", polls)
-for poll in polls:
- if not isinstance(poll, AttendancePoll):
-    poll.makeHistogram()
-
-
 
 pollReader.setPollsOfStudents()
 
@@ -34,7 +28,12 @@ for key, value in pollReader.pollsOfStudents.items():
         print("\n")
         print(f"number of absences of that student: {len(absencePollListOfCurrentStudent)}")
 
+pollReportWriter = PollReportWriter(studentList, polls)
+pollReportWriter.quizReport()
 
+studentAttendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
+studentAttendanceReportWriter.write_output_to_file()
 
-a = PollReportWriter(studentList, polls)
-a.quizReport()
+for poll in polls:
+    if not isinstance(poll, AttendancePoll):
+        poll.makeHistogram()
