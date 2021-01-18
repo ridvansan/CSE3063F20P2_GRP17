@@ -4,7 +4,7 @@ class NameComparator:
         if name1 == name2 or (name1.casefold() == name2.casefold()):
             return True
 
-        # Otherwie .lower() of 'İ' is a different unicode value.
+        # Otherwise .lower() of 'İ' is a different unicode value.
         name1 = name1.replace('İ', 'i')
         name2 = name2.replace('İ', 'i')
 
