@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-import numpy as np
+
 class Poll:
 
     def __init__(self, name, questionList):

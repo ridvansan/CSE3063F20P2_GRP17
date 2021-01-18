@@ -1,5 +1,3 @@
-# CAN BE SEPERATED WITH IMPORTS
-
 
 class Answer:
 
