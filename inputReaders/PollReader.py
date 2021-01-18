@@ -27,7 +27,6 @@ class PollReader:
             for pollAnswer in student.getPollAnswers():
                 currentStudentPolls.append(pollAnswer.poll)
                 self.pollsOfStudents[student] = currentStudentPolls
-        print(self.pollsOfStudents)
 
     def Diff(self, li1, li2):
         li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
@@ -127,7 +126,6 @@ class PollReader:
                         for j in range(5, len(line), 2):
                             questionAnswers.append(line[j])
                         for index, answer in enumerate(questionAnswers):
-                            print(questionNames[index])
                             if poll.answers[questionNames[index]] == None:
                                 answersForSpecificQuestion = {}
                                 answersForSpecificQuestion[answer] = 1
