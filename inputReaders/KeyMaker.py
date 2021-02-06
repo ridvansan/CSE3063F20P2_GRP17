@@ -19,7 +19,7 @@ class KeyMaker:
         pollka = []
         keys = os.listdir(self.directory)
         for key in keys:
-            self.makeKeys(key)
+            pollka.extend(self.makeKeys(key))
         return pollka
 
     def makeKeys(self, filename):
@@ -51,7 +51,7 @@ class KeyMaker:
 
             elif line[0:6] == "Answer":
                 polls[pollID].questionlist[questionID].appendToKeys(Key(line))
-
+        return polls
 
 
 
