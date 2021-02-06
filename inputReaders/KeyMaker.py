@@ -43,8 +43,7 @@ class KeyMaker:
                 title = line[6:]
             elif line[1:5] == "Poll":
                 pollID = int(line.split(":")[0].split()[1]) - 1
-                print(pollID)
-                polls.append(Poll(line, []))
+                polls.append(Poll(line.split(":")[1].split("\t")[0], []))
             elif line[0].isdigit():
                 questionID = int(line.split(".")[0]) - 1
                 polls[pollID].addToQuestionList(Question(line))

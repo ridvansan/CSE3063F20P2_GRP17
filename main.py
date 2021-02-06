@@ -5,14 +5,14 @@ from inputReaders.KeyMaker import KeyMaker
 from models.AttendancePoll import AttendancePoll
 from ReportWriter.StudentAttendanceReportWriter import StudentAttendanceReportWriter
 
-#studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
-#studentList = studentInputReader.getStudentList()
+studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
+studentList = studentInputReader.getStudentList()
 
 keyMaker = KeyMaker('assets/keys')
 polls = keyMaker.makeKeysinDirectory()
 
-#pollReader = PollReader("assets/pollReports")
-#pollReader.readAnswersAtDirectory(studentList, polls)
+pollReader = PollReader("assets/pollReports")
+pollReader.readAnswersAtDirectory(studentList, polls)
 #pollReader.readQuestionFrequencies("assets/pollReports/CSE3063_20201123_Mon_zoom_PollReport.csv", polls)
 
 #pollReader.setPollsOfStudents()

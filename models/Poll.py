@@ -6,6 +6,7 @@ class Poll:
         self.name = name
         self.questionlist = questionList
         self.answers = {}
+        self.date = None
 
     def addToQuestionList(self, question):
         self.questionlist.append(question)

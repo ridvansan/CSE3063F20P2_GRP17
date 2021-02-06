@@ -7,6 +7,7 @@ from models.PollAnswer import PollAnswer
 from models.AttendancePoll import AttendancePoll
 from models.Question import Question
 from models.StudentAnswer import StudentAnswer
+from models.Submit import Submit
 
 
 class PollReader:
@@ -57,63 +58,22 @@ class PollReader:
             for line in lines:
                 if line[1] == "User Name":
                     continue
-                s = None
-
-                #answers = getAnswers(line)
-                #student = getStudent(studentList, line)
-                #student.pollsAndAnswers[getCorrespondingPoll(line)] = answers
-
-                for student in studentList:
-                    fullName = student.name + " " + student.surname
-                    userName = ''.join(i for i in str(line[1]) if not i.isdigit())
-                    if nameComparator.isSameName(fullName, userName):
-                        s = student
-                        currentStudentListForPoll.append(s)
-                        # print(s.name)
-                        break
-
+                s = self.getStudent(line, studentList)
+                line.pop()
                 if s is None:
-                    print("Anomaly: ", line[1], ' | ', line[2], " on poll list skipping")
-                    anomaly = Anomaly(
-                        line[1],
-                        line[2]
-                    )
-                    self.anomalies.append(anomaly)
-                    continue
-                s.email = line[2]
-                questionList = []
-                self.getQandA(4, questionList, line)
-                questionList.pop()
-
-                ## date: [Nov 23], [2020 10:41:25]
-                date = line[3].split(',')
-                date = date[0]  # date = 'Nov 23'
-                poll = None
-                if questionList[0] == "Are you attending this lecture?":
-                    # this is attendance poll
-                    questions = [Question(questionList[0])]
-                    attendancePoll = AttendancePoll("attendance", date, questions)
-                    if attendancePoll not in polls:
-                        polls.append(attendancePoll)
-                    poll = attendancePoll
-                else:
-                    for p in polls:
-                        # questionList is a String list.
-                        if p.getQuestionNames() == questionList:
-                            poll = p
-                            break
-                if poll is None:
                     continue
 
-                answerList = []  # Students answer not the answer key.
-                self.getQandA(5, answerList, line)
 
-                pollAnswer = PollAnswer(poll, date)
-                for ans in answerList:
-                    pollAnswer.addToStudentAnswers(StudentAnswer(ans))
-                s.addToPollAnswers(pollAnswer)
+                submit = self.createSubmit(line)
+                getPoll = self.getPollOfSubmit(polls, submit)
+                s.PollsAndAnswers[getPoll] = submit
 
+                date =  line[3].split(",")[0]
+
+                #getPoll.date = line[3].split(",")[0]
         file.close()
+
+
 
     def readQuestionFrequencies(self, fileName, polls):
         with open(fileName, encoding="utf8") as file:
@@ -170,14 +130,27 @@ class PollReader:
         for i in range(startIndex, len(line), 2):
             List.append(line[i])
 
-    def getAnswers(self, line):
+    def createSubmit(self, line):
         length = len(line)
-        answers = []
+        submit = Submit()
+        questions = []
+        submit.date = line[3]
         for i in range(4,length,2):
             question = Question(line[i])
-            answers = StudentAnswer(line[i+1].split(";"))
-            if line[4] == "Are you attending this class?":
-                AttendancePoll("attandance", line[3].split(",")[0],[question])
+            keyStrings = line[i+1].split(";")
+            for keyString in keyStrings:
+                question.keys.append(StudentAnswer(keyString))
+            questions.append(question)
+        submit.studentQuestions = questions
+        return submit
+
+    def getPollOfSubmit(self,polls,submit):
+        for poll in polls:
+            if len(poll.questionlist) == len(submit.studentQuestions):
+                if poll.getQuestionNames() == submit.getQuestionNames():
+                    print("buldum")
+                    return poll
+        return None
 
 
     def getStudent(self, line, studentList):
@@ -187,7 +160,14 @@ class PollReader:
             userName = ''.join(i for i in str(line[1]) if not i.isdigit())
             if nameComparator.isSameName(fullName, userName):
                 s = student
+                s.email = line[2]
                 return s
+        #Add anomaly to here
+        print("Anomaly: ", line[1], ' | ', line[2], " on poll list skipping")
+        anomaly = Anomaly(
+            line[1],
+            line[2]
+        )
+        self.anomalies.append(anomaly)
+        return None
 
-    def agetCorrespondingPoll(self,line):
-        pass
