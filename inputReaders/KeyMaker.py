@@ -46,7 +46,7 @@ class KeyMaker:
                 polls.append(Poll(line.split(":")[1].split("\t")[0], []))
             elif line[0].isdigit():
                 questionID = int(line.split(".")[0]) - 1
-                polls[pollID].addToQuestionList(Question(line))
+                polls[pollID].addToQuestionList(Question(line.split(".")[1][1:]))
 
             elif line[0:6] == "Answer":
                 polls[pollID].questionlist[questionID].appendToKeys(Key(line))
