@@ -144,7 +144,6 @@ class PollReader:
     def getPollOfSubmit(self, polls, submit):
         for poll in polls:
             if len(poll.questionlist) == len(submit.studentQuestions):
-                percentage = 0
                 a = sorted(poll.getQuestionNames())
                 b = sorted(submit.getQuestionNames())
 
