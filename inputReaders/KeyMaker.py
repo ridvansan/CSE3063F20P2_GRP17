@@ -19,25 +19,56 @@ class KeyMaker:
         polls = []
         keys = os.listdir(self.directory)
         for key in keys:
-            polls.extend(self.makeKeys(key))
+            self.makeKeys(key)
         return polls
 
     def makeKeys(self, filename):
-        file = pd.read_excel(self.directory + "/" + filename, index_col=None, header=None)
-        i = -1
+        file = open(self.directory + "/" + filename, "r")
+        lines = file.readlines()
+        lineIndex = 0
+        pollCount = lines[lineIndex]
+        lineIndex += 1
+        title = lines[lineIndex]
+        lineIndex += 1
         polls = []
-        for row in range(0, file.shape[0]):
-            if pd.isnull(file.iat[row, 1]):
-                polls.append(Poll(file.iat[row, 0], []))
-                i += 1
-            else:
-                question = Question(file.iat[row, 0])
-                key = Key(file.iat[row, 1])
-                question.keys.append(key)
-                polls[i].questionlist.append(question)
-                #add questions as key to the answers dictionary
-                polls[i].answers.update({question.name : None})
+        while lineIndex < len(lines):
+            if lines[lineIndex] == "\n":
+                lineIndex += 1
+                continue
+            elif lines[lineIndex][1:5] == "Poll":
+                pollLine = lines[lineIndex].split(":")[1]
+                pollName = pollLine.split("\t")[0]
+                pollQuestionCount = pollLine.split("\t")[1]
+                yesNo = pollLine.split("\t")[2]
+                lineIndex += 1
+                questions = []
+                while True:
 
-        return polls
+                    if lines[lineIndex] == "\n":
+                        lineIndex += 1
+                        continue
+
+                    if lines[lineIndex][0].isdigit():
+                        questionName = lines[lineIndex][3:]
+                        lineIndex += 1
+                        keys = []
+                        while True:
+
+                            if lines[lineIndex] == "\n":
+                                lineIndex += 1
+                                continue
+                            elif lines[lineIndex][0:6] == "Answer":
+
+                                keys.append(Key(lines[lineIndex][10:]))
+                                lineIndex += 1
+                            else:
+                                question = Question(questionName)
+                                question.keys = keys
+                                questions.append(question)
+                                break
+
+                    else:
+                        polls.append(Poll(pollName, questions))
+                        break
 
 
