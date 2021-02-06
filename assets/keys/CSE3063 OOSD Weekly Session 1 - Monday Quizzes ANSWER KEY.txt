@@ -278,7 +278,7 @@ Answer 1: static
 
 Answer 4: Doctor---Treatment---Patient (treatment info stored in Treatment)
 
- Poll 13:W8-1 Iteration Artifacts	10 questions	No	 
+ Poll 12:W8-1 Iteration Artifacts	10 questions	No
 1. Requirement Analysis is .... activity in software development ( Single Choice)
 
 Answer 1: First
@@ -319,7 +319,7 @@ Answer 2: Systematic and intuitive way to capture non-functional requirements
 
 Answer 3: each iteration
 
- Poll 14:W8-2 Iteration Artifacts	10 questions	No	 
+ Poll 13:W8-2 Iteration Artifacts	10 questions	No
 1. Usually first iteration implements core functionality. The reason for this is to produce a running software at the end of the iteration so that we can get feedback from users. ( Single Choice)
 
 Answer 1: True
@@ -360,7 +360,7 @@ Answer 1: True
 
 Answer 2: Class Diagram
 
- Poll 15:W8-3 Iteration Artifacts	10 questions	No	 
+ Poll 14:W8-3 Iteration Artifacts	10 questions	No
 1. Visibility is the ability of one object to see another to send a message. In order to do that the sender object must have a reference to receiver object ( Single Choice)
 
 Answer 1: True

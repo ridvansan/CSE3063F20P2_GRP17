@@ -16,59 +16,42 @@ class KeyMaker:
         self.directory = directory
 
     def makeKeysinDirectory(self):
-        polls = []
+        pollka = []
         keys = os.listdir(self.directory)
         for key in keys:
             self.makeKeys(key)
-        return polls
+        return pollka
 
     def makeKeys(self, filename):
+        pollName = ""
+        questionName = ""
+        answers = []
+        polls = []
+        questions = []
+        question = ""
+        pollID = 0
+        questionID = 0
         file = open(self.directory + "/" + filename, "r")
         lines = file.readlines()
-        lineIndex = 0
-        pollCount = lines[lineIndex]
-        lineIndex += 1
-        title = lines[lineIndex]
-        lineIndex += 1
-        polls = []
-        while lineIndex < len(lines):
-            if lines[lineIndex] == "\n":
-                lineIndex += 1
+
+        for line in lines:
+            if line == "\n":
                 continue
-            elif lines[lineIndex][1:5] == "Poll":
-                pollLine = lines[lineIndex].split(":")[1]
-                pollName = pollLine.split("\t")[0]
-                pollQuestionCount = pollLine.split("\t")[1]
-                yesNo = pollLine.split("\t")[2]
-                lineIndex += 1
-                questions = []
-                while True:
+            elif line[0:8] == "You have":
+                pollCount = 15
+            elif line[0:5] == "Title":
+                title = line[6:]
+            elif line[1:5] == "Poll":
+                pollID = int(line.split(":")[0].split()[1]) - 1
+                print(pollID)
+                polls.append(Poll(line, []))
+            elif line[0].isdigit():
+                questionID = int(line.split(".")[0]) - 1
+                polls[pollID].addToQuestionList(Question(line))
 
-                    if lines[lineIndex] == "\n":
-                        lineIndex += 1
-                        continue
+            elif line[0:6] == "Answer":
+                polls[pollID].questionlist[questionID].appendToKeys(Key(line))
 
-                    if lines[lineIndex][0].isdigit():
-                        questionName = lines[lineIndex][3:]
-                        lineIndex += 1
-                        keys = []
-                        while True:
 
-                            if lines[lineIndex] == "\n":
-                                lineIndex += 1
-                                continue
-                            elif lines[lineIndex][0:6] == "Answer":
-
-                                keys.append(Key(lines[lineIndex][10:]))
-                                lineIndex += 1
-                            else:
-                                question = Question(questionName)
-                                question.keys = keys
-                                questions.append(question)
-                                break
-
-                    else:
-                        polls.append(Poll(pollName, questions))
-                        break
 
 

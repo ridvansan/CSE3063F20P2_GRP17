@@ -45,14 +45,23 @@ class PollReader:
         self.studentList = studentList
         nameComparator = NameComparator()
         with open(self.directory + "/" + filename, encoding="utf-8") as file:
+            file.readline()
+            file.readline()
+            file.readline()
+            file.readline()
+            file.readline()
+            file.readline()
             lines = csv.reader(file, delimiter=',')
-
             currentStudentListForPoll = []
 
             for line in lines:
                 if line[1] == "User Name":
                     continue
                 s = None
+
+                #answers = getAnswers(line)
+                #student = getStudent(studentList, line)
+                #student.pollsAndAnswers[getCorrespondingPoll(line)] = answers
 
                 for student in studentList:
                     fullName = student.name + " " + student.surname
@@ -160,3 +169,25 @@ class PollReader:
     def getQandA(self, startIndex, List, line):
         for i in range(startIndex, len(line), 2):
             List.append(line[i])
+
+    def getAnswers(self, line):
+        length = len(line)
+        answers = []
+        for i in range(4,length,2):
+            question = Question(line[i])
+            answers = StudentAnswer(line[i+1].split(";"))
+            if line[4] == "Are you attending this class?":
+                AttendancePoll("attandance", line[3].split(",")[0],[question])
+
+
+    def getStudent(self, line, studentList):
+        nameComparator = NameComparator()
+        for student in studentList:
+            fullName = student.name + " " + student.surname
+            userName = ''.join(i for i in str(line[1]) if not i.isdigit())
+            if nameComparator.isSameName(fullName, userName):
+                s = student
+                return s
+
+    def agetCorrespondingPoll(self,line):
+        pass

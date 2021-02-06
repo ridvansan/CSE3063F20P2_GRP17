@@ -14,7 +14,6 @@ class Poll:
         return f'{self.name} <{self.questionlist}>\n '
 
 
-
     def getQuestionNames(self):
         questionNames = []
         for question in self.questionlist:
