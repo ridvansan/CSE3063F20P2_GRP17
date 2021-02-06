@@ -33,6 +33,7 @@ class Poll:
             yAxis = []
             xAxis = []
             color = []
+            explode = []
             correctAnswer = self.questionlist[upperIndex].keys[0].text
 
             for index, data in enumerate(question.values()):
@@ -48,14 +49,17 @@ class Poll:
                     color.append('blue')
                 if index < 6:
                     yAxis.append(data)
-                    xAxis.append("a" + str(index))
+                    xAxis.append(answer)
+                    explode.append(0.01)
 
-                plt.bar(xAxis, yAxis, color=color)
-                plt.xlabel = "answers"
-                plt.ylabel = "values"
+            plt.pie(yAxis, labels=xAxis, autopct='%1.1f%%', colors=color, explode=explode)
+            title = 'q' + str(upperIndex)
+            plt.title(title)
+            plt.axis('equal')
 
-                png = "output/q" + str(upperIndex) + ".png"
-                plt.savefig(png)
+            png = "output/q" + str(upperIndex) + ".png"
+            plt.show()
+            #plt.savefig(png)
 
 
 
