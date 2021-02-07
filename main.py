@@ -15,13 +15,6 @@ pollReader = PollReader(studentList)
 pollReader.readAnswersAtDirectory(polls, "assets/pollReports")
 
 
-for st in studentList:
-    st.getAttendanceNew(pollReader.pollDates)
-
-for st in studentList:
-    st.getSuccessNew()
-
-
 studentAttendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
 studentAttendanceReportWriter.write_output_to_file(pollReader.pollDates)
 
