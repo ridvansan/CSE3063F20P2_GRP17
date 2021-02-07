@@ -23,8 +23,9 @@ class PollReportWriter:
                 status = student.getStatus(poll)
                 if len(status) > 6:
                     data.append(status)
-            frame = pd.DataFrame(data, columns=index)
-            frame.to_excel("output/"+poll.name + "_report.xlsx")
+            if len(data) > 0:
+                frame = pd.DataFrame(data, columns=index)
+                frame.to_excel("output/"+poll.name + "_report.xlsx")
 
     def writeQuizDetailedReportsForEachStudent(self):
         for student in self.studentList:
