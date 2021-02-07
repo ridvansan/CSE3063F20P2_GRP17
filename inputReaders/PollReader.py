@@ -16,7 +16,7 @@ class PollReader:
 
     def __init__(self, studentList):
         self.studentList = studentList
-        self.anomalies = []
+        self.anomalies = set()
         self.pollDates = set()
 
     def getAnomalies(self):
@@ -179,10 +179,8 @@ class PollReader:
                 s.email = line[2]
                 return s
         # Add anomaly to here
-        print("Anomaly: ", line[1], ' | ', line[2], " on poll list skipping")
-        anomaly = Anomaly(
-            line[1],
-            line[2]
-        )
-        self.anomalies.append(anomaly)
+        anomaly = Anomaly(line[1], line[2])
+        if not any(a.name == anomaly.name for a in self.anomalies):
+            print("Anomaly: ", line[1], ' | ', line[2], " on poll list skipping")
+            self.anomalies.add(anomaly)
         return None
