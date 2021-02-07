@@ -13,27 +13,34 @@ polls = keyMaker.makeKeysinDirectory()
 
 pollReader = PollReader("assets/pollReports")
 pollReader.readAnswersAtDirectory(studentList, polls)
-#pollReader.readQuestionFrequencies("assets/pollReports/CSE3063_20201123_Mon_zoom_PollReport.csv", polls)
 
-#pollReader.setPollsOfStudents()
+for poll in polls:
+    submit = pollReader.checkPollsAndSubmits(poll)
+    if submit is not None:
+        poll.date = submit.date
 
-#for key, value in pollReader.pollsOfStudents.items():
-#    currentStudentID = key.studentID
-#    absencePollListOfCurrentStudent = pollReader.Diff(polls, value)
+print("yeeeyyyyy")
 
-#    if len(absencePollListOfCurrentStudent) > 0:
-#        print(f"student id: {currentStudentID} ")
-#        for absencePoll in absencePollListOfCurrentStudent:
-#            print(f"poll names: {absencePoll.name}")
-#        print("\n")
-#        print(f"number of absences of that student: {len(absencePollListOfCurrentStudent)}")
+pollReader.readQuestionFrequencies("assets/pollReports/CSE3063_20201123_Mon_zoom_PollReport.csv", polls)
 
-#pollReportWriter = PollReportWriter(studentList, polls)
-#pollReportWriter.quizReport()
+pollReader.setPollsOfStudents()
+for key, value in pollReader.pollsOfStudents.items():
+    currentStudentID = key.studentID
+    absencePollListOfCurrentStudent = pollReader.Diff(polls, value)
 
-#studentAttendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
-#studentAttendanceReportWriter.write_output_to_file()
+    if len(absencePollListOfCurrentStudent) > 0:
+        print(f"student id: {currentStudentID} ")
+        for absencePoll in absencePollListOfCurrentStudent:
+            print(f"poll names: {absencePoll.name}")
+        print("\n")
+        print(f"number of absences of that student: {len(absencePollListOfCurrentStudent)}")
 
-#for poll in polls:
-#    if not isinstance(poll, AttendancePoll):
-#        poll.makeHistogram()
+pollReportWriter = PollReportWriter(studentList, polls)
+pollReportWriter.quizReport()
+
+studentAttendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
+studentAttendanceReportWriter.write_output_to_file()
+
+for poll in polls:
+    if not isinstance(poll, AttendancePoll):
+        poll.makeHistogram()
