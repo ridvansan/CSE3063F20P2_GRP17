@@ -3,7 +3,6 @@ class Submit:
     def __init__(self):
         self.studentQuestions = []
         self.date = None
-        pass
 
     def getQuestionNames(self):
         questionNames = []

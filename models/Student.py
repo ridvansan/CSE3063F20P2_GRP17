@@ -10,6 +10,7 @@ class Student:
         self.email = None
         self.pollAnswers = []
         self.PollsAndAnswers = {} #Poll:Answers
+        self.attendances = []
 
     def __repr__(self):
         return str(self)
