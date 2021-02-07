@@ -34,7 +34,10 @@ class Poll:
             xAxis = []
             color = []
             explode = []
-            correctAnswer = self.questionlist[upperIndex].keys[0].answertext
+            if len(self.questionlist) > upperIndex:
+                correctAnswer = self.questionlist[upperIndex].keys[0].answertext
+            else:
+                return
 
             for index, data in enumerate(question.values()):
 

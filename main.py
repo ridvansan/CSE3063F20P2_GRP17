@@ -1,5 +1,3 @@
-
-
 from ReportWriter.PollReportWriter import PollReportWriter
 from ReportWriter.StudentAttendanceReportWriter import StudentAttendanceReportWriter
 from inputReaders.KeyMaker import KeyMaker
@@ -18,14 +16,12 @@ pollReader.readAnswersAtDirectory(polls, "assets/pollReports")
 
 pollReader.polls = polls
 
-pollReader.readFrequenciesAtDirectory()
-print("test2")
+pollReader.readFrequenciesAtDirectory("assets/pollReports")
+
 
 for poll in pollReader.polls:
-    if not isinstance(poll, AttendancePoll) and len(poll.answers)>0:
+    if not isinstance(poll, AttendancePoll) and len(poll.answers) > 0:
         poll.makeHistogram()
-
-
 
 studentAttendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
 studentAttendanceReportWriter.write_output_to_file(pollReader.pollDates)

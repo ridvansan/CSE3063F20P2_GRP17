@@ -12,11 +12,13 @@ from models.Submit import Submit
 from difflib import SequenceMatcher
 from models.Attendance import Attendance
 
+
 class PollReader:
 
-    def __init__(self, directory):
-        self.directory = directory
-        self.studentList = []
+    def __init__(self, studentList):
+
+        self.studentList = studentList
+
         self.anomalies = set()
         self.pollDates = set()
         self.pollsOfStudents = {}  # dictionary key: student value: Poll Array
@@ -30,9 +32,9 @@ class PollReader:
     def readAnswersAtDirectory(self, polls, directory):
         reports = os.listdir(directory)
         for report in reports:
-            self.readAnswers(self.studentList, polls, report,directory)
+            self.readAnswers(self.studentList, polls, report, directory)
 
-    def readAnswers(self, studentList, polls, filename,directory):
+    def readAnswers(self, studentList, polls, filename, directory):
         self.studentList = studentList
 
         with open(directory + "/" + filename, encoding="utf-8") as file:
@@ -56,18 +58,19 @@ class PollReader:
                     s.attendances.add(Attendance(line[3].split(",")[0]))
                 else:
                     submitForStudent = self.createSubmitForStudent(line)
-                    getPoll = self.getPollOfSubmit(polls,submitForStudent)
+                    getPoll = self.getPollOfSubmit(polls, submitForStudent)
                     if getPoll is not None:
                         s.PollsAndAnswers[getPoll] = submitForStudent
         file.close()
-    def readFrequenciesAtDirectory(self):
-        reports = os.listdir(self.directory)
+
+    def readFrequenciesAtDirectory(self, directory):
+        reports = os.listdir(directory)
         for report in reports:
-            self.readQuestionFrequencies(report)
+            self.readQuestionFrequencies(report,directory)
         return
 
-    def readQuestionFrequencies(self, fileName):
-        with open(self.directory + "/" + fileName, encoding="utf8") as file:
+    def readQuestionFrequencies(self, fileName, directory):
+        with open(directory + "/" + fileName, encoding="utf8") as file:
             file.readline()
             file.readline()
             file.readline()
