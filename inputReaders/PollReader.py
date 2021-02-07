@@ -8,6 +8,7 @@ from models.AttendancePoll import AttendancePoll
 from models.Question import Question
 from models.StudentAnswer import StudentAnswer
 from models.Submit import Submit
+from models.Attendance import Attendance
 
 from difflib import SequenceMatcher
 
@@ -45,7 +46,6 @@ class PollReader:
 
     def readAnswers(self, studentList, polls, filename):
         self.studentList = studentList
-        nameComparator = NameComparator()
         with open(self.directory + "/" + filename, encoding="utf-8") as file:
             file.readline()
             file.readline()
@@ -54,23 +54,26 @@ class PollReader:
             file.readline()
             file.readline()
             lines = csv.reader(file, delimiter=',')
-            currentStudentListForPoll = []
 
             for line in lines:
                 if line[1] == "User Name":
                     continue
-                s = self.getStudent(line, studentList)
+                student = self.getStudent(line, studentList)
                 line.pop()
-                if s is None:
+                if student is None:
                     continue
 
-                submit = self.createSubmit(line)
-                getPoll = self.getPollOfSubmit(polls, submit)
-                s.PollsAndAnswers[getPoll] = submit
+                if line[4] == "Are you attending this lecture?":
+                    student.attendances.append(self.crateAttanDance(line))
+                else:
+                    submit = self.createSubmit(line)
+                    getPoll = self.getPollOfSubmit(polls, submit)
+                    if getPoll == None:
+                        print("Corresponding Poll not found")
+                        continue
+                    student.PollsAndAnswers[getPoll] = submit
+                    getPoll.date = line[3].split(",")[0]
 
-                date = line[3].split(",")[0]
-
-                # getPoll.date = line[3].split(",")[0]
         file.close()
 
     def readQuestionFrequencies(self, fileName, polls):
@@ -141,6 +144,9 @@ class PollReader:
         submit.studentQuestions = questions
         return submit
 
+    def crateAttanDance(self,line):
+        return Attendance(line[2])
+
     def getPollOfSubmit(self, polls, submit):
         for poll in polls:
             if len(poll.questionlist) == len(submit.studentQuestions):
@@ -150,7 +156,6 @@ class PollReader:
                 for i in range(0, len(poll.questionlist)):
                     percentage = SequenceMatcher(None, a[i], b[i]).ratio()
                     if percentage > 0.6:
-                        print("buldum")
                         return poll
         return None
 

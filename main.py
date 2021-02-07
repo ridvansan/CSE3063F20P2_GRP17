@@ -14,7 +14,7 @@ polls = keyMaker.makeKeysinDirectory()
 pollReader = PollReader("assets/pollReports")
 pollReader.readAnswersAtDirectory(studentList, polls)
 #pollReader.readQuestionFrequencies("assets/pollReports/CSE3063_20201123_Mon_zoom_PollReport.csv", polls)
-
+print("test")
 #pollReader.setPollsOfStudents()
 
 #for key, value in pollReader.pollsOfStudents.items():
