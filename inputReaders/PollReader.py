@@ -21,6 +21,7 @@ class PollReader:
         self.pollsOfStudents = {}  # dictionary key: student value: Poll Array
         self.absences = {}  # dictionary key: poll values: numbers of absences (int)
         self.submits = []
+        self.polls = []
 
     def getNumOfAbsenceForThatPoll(self, poll, pollStudentList):
         return len(self.studentList) - len(pollStudentList)
@@ -43,6 +44,12 @@ class PollReader:
         reports = os.listdir(self.directory)
         for report in reports:
             self.readAnswers(studentList, polls, report)
+
+    def readFrequenciesAtDirectory(self):
+        reports = os.listdir(self.directory)
+        for report in reports:
+            self.readQuestionFrequencies(report)
+        return
 
     def readAnswers(self, studentList, polls, filename):
         self.studentList = studentList
@@ -76,35 +83,58 @@ class PollReader:
 
         file.close()
 
-    def readQuestionFrequencies(self, fileName, polls):
-        with open(fileName, encoding="utf8") as file:
+    def readQuestionFrequencies(self, fileName):
+        with open(self.directory + "/" + fileName, encoding="utf8") as file:
+            file.readline()
+            file.readline()
+            file.readline()
+            file.readline()
+            file.readline()
+            file.readline()
             lines = csv.reader(file, delimiter=',')
+            foundedPoll = None
             for line in lines:
                 # get question names:
+
                 questionNames = []
                 # store questionNames:
                 for i in range(4, len(line), 2):
                     questionNames.append(line[i])
                 questionNames.pop()
-                for poll in polls:
-                    if not isinstance(poll, AttendancePoll):
+
+                b = sorted(questionNames)
+
+                for poll in self.polls:
+                    if not isinstance(poll, AttendancePoll) and len(poll.questionlist) > 2:
                         pollQuestions = poll.getQuestionNames()
+                        a = sorted(pollQuestions)
+                        percentage = SequenceMatcher(None, a[0], b[0]).ratio()
+                        if percentage > 0.6:
+                            foundedPoll = poll
+                            for line in lines:
+                                if foundedPoll is not None:
+                                    questionAnswers = []
+                                    questions = []
+                                    for j in range(5, len(line), 2):
+                                        questionAnswers.append(line[j])  # in file
+                                        questions.append(line[j - 1])  # in file
 
-                        if pollQuestions == questionNames:
-                            questionAnswers = []
-                            for j in range(5, len(line), 2):
-                                questionAnswers.append(line[j])
-                            for index, answer in enumerate(questionAnswers):
-                                if poll.answers[questionNames[index]] == None:
-                                    answersForSpecificQuestion = {}
-                                    answersForSpecificQuestion[answer] = 1
-                                    poll.answers[questionNames[index]] = answersForSpecificQuestion
-                                else:
-                                    if poll.answers[questionNames[index]].get(answer) != None:
-                                        poll.answers[questionNames[index]][answer] += 1
-                                    else:
-                                        poll.answers[questionNames[index]].update({answer: 1})
+                                    for answer, quest in zip(questionAnswers, questions):
 
+                                        if quest in foundedPoll.answers.keys():
+
+                                            if answer in foundedPoll.answers[quest].keys():
+                                                foundedPoll.answers[quest][answer] = foundedPoll.answers[quest][
+                                                                                         answer] + 1
+                                            else:
+                                                foundedPoll.answers[quest][answer] = 1
+
+                                        else:
+                                            poll.answers[quest] = {}
+                                            foundedPoll.answers[quest][answer] = 1
+
+                            file.close()
+                            return
         file.close()
 
     def getCorrespondingPoll(self, questionList, date, polls):

@@ -1,9 +1,11 @@
+
+
 from ReportWriter.PollReportWriter import PollReportWriter
+from ReportWriter.StudentAttendanceReportWriter import StudentAttendanceReportWriter
+from inputReaders.KeyMaker import KeyMaker
 from inputReaders.PollReader import PollReader
 from inputReaders.StudentInputReader import StudentInputReader
-from inputReaders.KeyMaker import KeyMaker
 from models.AttendancePoll import AttendancePoll
-from ReportWriter.StudentAttendanceReportWriter import StudentAttendanceReportWriter
 
 studentInputReader = StudentInputReader("assets/CES3063_Fall2020_rptSinifListesi.XLS")
 studentList = studentInputReader.getStudentList()
@@ -19,9 +21,21 @@ for poll in polls:
     if submit is not None:
         poll.date = submit.date
 
-print("yeeeyyyyy")
 
-pollReader.readQuestionFrequencies("assets/pollReports/CSE3063_20201123_Mon_zoom_PollReport.csv", polls)
+pollReader.polls = polls
+
+print("test1")
+
+#pollReader.readQuestionFrequencies("assets/pollReports/94502073867_PollReport (20).csv", polls)
+
+pollReader.readFrequenciesAtDirectory()
+print("test2")
+
+for poll in pollReader.polls:
+    if not isinstance(poll, AttendancePoll) and len(poll.answers)>0:
+        poll.makeHistogram()
+
+
 
 pollReader.setPollsOfStudents()
 for key, value in pollReader.pollsOfStudents.items():
@@ -41,6 +55,4 @@ pollReportWriter.quizReport()
 studentAttendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
 studentAttendanceReportWriter.write_output_to_file()
 
-for poll in polls:
-    if not isinstance(poll, AttendancePoll):
-        poll.makeHistogram()
+

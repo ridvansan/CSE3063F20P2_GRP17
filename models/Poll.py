@@ -34,7 +34,7 @@ class Poll:
             xAxis = []
             color = []
             explode = []
-            correctAnswer = self.questionlist[upperIndex].keys[0].text
+            correctAnswer = self.questionlist[upperIndex].keys[0].answertext
 
             for index, data in enumerate(question.values()):
 
@@ -59,7 +59,7 @@ class Poll:
 
             png = "output/q" + str(upperIndex) + ".png"
             plt.show()
-            #plt.savefig(png)
+            plt.savefig(png)
 
 
 
