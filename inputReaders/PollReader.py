@@ -10,44 +10,27 @@ from models.StudentAnswer import StudentAnswer
 from models.Submit import Submit
 
 from difflib import SequenceMatcher
-
+from models.Attendance import Attendance
 
 class PollReader:
 
-    def __init__(self, directory):
-        self.directory = directory
-        self.studentList = []
+    def __init__(self, studentList):
+        self.studentList = studentList
         self.anomalies = []
-        self.pollsOfStudents = {}  # dictionary key: student value: Poll Array
-        self.absences = {}  # dictionary key: poll values: numbers of absences (int)
-        self.submits = []
-
-    def getNumOfAbsenceForThatPoll(self, poll, pollStudentList):
-        return len(self.studentList) - len(pollStudentList)
-
-    def setPollsOfStudents(self):
-        for student in self.studentList:
-            currentStudentPolls = []
-            for pollAnswer in student.getPollAnswers():
-                currentStudentPolls.append(pollAnswer.poll)
-                self.pollsOfStudents[student] = currentStudentPolls
-
-    def Diff(self, li1, li2):
-        li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
-        return li_dif
+        self.pollDates = set()
 
     def getAnomalies(self):
         return self.anomalies
 
-    def readAnswersAtDirectory(self, studentList, polls):
-        reports = os.listdir(self.directory)
+    def readAnswersAtDirectory(self, polls, directory):
+        reports = os.listdir(directory)
         for report in reports:
-            self.readAnswers(studentList, polls, report)
+            self.readAnswers(self.studentList, polls, report,directory)
 
-    def readAnswers(self, studentList, polls, filename):
+    def readAnswers(self, studentList, polls, filename,directory):
         self.studentList = studentList
 
-        with open(self.directory + "/" + filename, encoding="utf-8") as file:
+        with open(directory + "/" + filename, encoding="utf-8") as file:
             file.readline()
             file.readline()
             file.readline()
@@ -56,7 +39,6 @@ class PollReader:
             file.readline()
             lines = csv.reader(file, delimiter=',')
 
-            x = ['x']
             for line in lines:
                 if line[1] == "User Name":
                     continue
@@ -64,16 +46,14 @@ class PollReader:
                 line.pop()
                 if s is None:
                     continue
-
-                submit = self.createSubmit(line, x)
-                if submit is not None:
-                    self.submits.append(submit)
-                x = line
-
-            # getPoll = self.getPollOfSubmit(polls, submit)
-
-            # s.PollsAndAnswers[getPoll] = submit
-
+                self.addToPollDates(line)
+                if line[4] == "Are you attending this lecture?":
+                    s.attendances.add(Attendance(line[3].split(",")[0]))
+                else:
+                    submitForStudent = self.createSubmitForStudent(line)
+                    getPoll = self.getPollOfSubmit(polls,submitForStudent)
+                    if getPoll is not None:
+                        s.PollsAndAnswers[getPoll] = submitForStudent
         file.close()
 
     def readQuestionFrequencies(self, fileName, polls):
@@ -130,11 +110,31 @@ class PollReader:
         for i in range(startIndex, len(line), 2):
             List.append(line[i])
 
+    def createSubmitForStudent(self,line):
+        length = len(line)
+        submit = Submit()
+        questions = []
+        submit.date = line[3].split(",")[0]
+        for i in range(4, length, 2):
+            question = Question(line[i])
+            keyStrings = line[i + 1].split(";")
+            for keyString in keyStrings:
+                question.keys.append(StudentAnswer(keyString))
+            questions.append(question)
+        submit.studentQuestions = questions
+        return submit
+
+    def addToPollDates(self,line):
+        date = line[3].split(",")[0]
+        if date not in self.pollDates:
+            self.pollDates.add(date)
+
+
     def createSubmit(self, line, x):
         length = len(line)
         submit = Submit()
         questions = []
-        submit.date = line[3]
+        submit.date = line[3].split(",")[0]
         for i in range(4, length, 2):
             question = Question(line[i])
             if len(x) > i and line[i] == x[i]:
@@ -155,7 +155,6 @@ class PollReader:
                 for i in range(0, len(poll.questionlist)):
                     percentage = SequenceMatcher(None, a[i], b[i]).ratio()
                     if percentage > 0.6:
-                        print("buldum")
                         return poll
         return None
 
@@ -167,7 +166,6 @@ class PollReader:
 
                 percentage = SequenceMatcher(None, a[0], b[0]).ratio()
                 if percentage > 0.6:
-                    print("buldum")
                     return submit
         return None
 

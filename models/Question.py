@@ -11,6 +11,12 @@ class Question:
     def putKeys(self, keys):
         self.keys = keys
 
+    def getKeys(self):
+        stringList = []
+        for key in self.keys:
+            stringList.append(key.answertext)
+        return stringList
+
     def __eq__(self,other):
         if not isinstance(other,Question):
             return False

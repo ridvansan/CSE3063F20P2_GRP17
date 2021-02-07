@@ -11,18 +11,24 @@ studentList = studentInputReader.getStudentList()
 keyMaker = KeyMaker('assets/keys')
 polls = keyMaker.makeKeysinDirectory()
 
-pollReader = PollReader("assets/pollReports")
-pollReader.readAnswersAtDirectory(studentList, polls)
+pollReader = PollReader(studentList)
+pollReader.readAnswersAtDirectory(polls, "assets/pollReports")
 
-for poll in polls:
-    submit = pollReader.checkPollsAndSubmits(poll)
-    if submit is not None:
-        poll.date = submit.date
 
-print("yeeeyyyyy")
+for st in studentList:
+    st.getAttendanceNew(pollReader.pollDates)
 
-pollReader.readQuestionFrequencies("assets/pollReports/CSE3063_20201123_Mon_zoom_PollReport.csv", polls)
+for st in studentList:
+    st.getSuccessNew()
 
+
+studentAttendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
+studentAttendanceReportWriter.write_output_to_file(pollReader.pollDates)
+
+pollReportWriter = PollReportWriter(studentList, polls)
+pollReportWriter.quizReport()
+
+"""
 pollReader.setPollsOfStudents()
 for key, value in pollReader.pollsOfStudents.items():
     currentStudentID = key.studentID
@@ -38,9 +44,9 @@ for key, value in pollReader.pollsOfStudents.items():
 pollReportWriter = PollReportWriter(studentList, polls)
 pollReportWriter.quizReport()
 
-studentAttendanceReportWriter = StudentAttendanceReportWriter(studentList, polls)
-studentAttendanceReportWriter.write_output_to_file()
+
 
 for poll in polls:
     if not isinstance(poll, AttendancePoll):
         poll.makeHistogram()
+"""
