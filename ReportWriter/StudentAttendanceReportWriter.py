@@ -2,7 +2,6 @@ from xlwt import Workbook
 
 from models.AttendancePoll import AttendancePoll
 
-
 class StudentAttendanceReportWriter:
 
     def __init__(self, studentList, pollList):
@@ -16,7 +15,7 @@ class StudentAttendanceReportWriter:
                 counter += 1
         return counter
 
-    def write_output_to_file(self):
+    def write_output_to_file(self,dates):
         wb = Workbook()
         sheet = wb.add_sheet('Student Attendance Report')
 
@@ -27,14 +26,13 @@ class StudentAttendanceReportWriter:
         sheet.write(0, 4, 'Student Attendance')
         sheet.write(0, 5, 'Attendance Percantage')
 
-        numberOfAttandancePolls = self.getNumberOfAttendancePolls()
 
         for (index, student) in enumerate(self.studentList):
             sheet.write(index + 1, 0, student.studentID)
             sheet.write(index + 1, 1, student.name)
             sheet.write(index + 1, 2, student.surname)
-            sheet.write(index + 1, 3, numberOfAttandancePolls)
-            sheet.write(index + 1, 4, student.getAttendance())
-            sheet.write(index + 1, 5, f'%{student.getAttendance()*100 / numberOfAttandancePolls}')
+            sheet.write(index + 1, 3, len(dates))
+            sheet.write(index + 1, 4, student.getAttendanceNew(dates))
+            sheet.write(index + 1, 5, '{:.2f}%'.format(student.getAttendanceNew(dates)*100 / len(dates)))
 
         wb.save("output/CSE3063_studentReport.xls")

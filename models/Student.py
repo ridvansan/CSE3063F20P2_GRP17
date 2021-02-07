@@ -10,7 +10,7 @@ class Student:
         self.email = None
         self.pollAnswers = []
         self.PollsAndAnswers = {} #Poll:Answers
-        self.attendances = []
+        self.attendances = set()
 
     def __repr__(self):
         return str(self)
@@ -32,6 +32,60 @@ class Student:
                 studentsAttendance +=1
 
         return studentsAttendance
+
+    def getAttendanceDates(self):
+        dates = set()
+        for attendance in self.attendances:
+            dates.add(attendance.date)
+        return dates
+
+    def isAttended(self,date):
+        if date in self.getAttendanceDates():
+            return True
+        else:
+            for poll, stAnswer in self.PollsAndAnswers.items():
+                if stAnswer.date == date:
+                    return True
+        return False
+
+    def getAttendanceNew(self,dates):
+        daysAttended = 0
+        for date in dates:
+            if self.isAttended(date):
+                daysAttended += 1
+        return daysAttended
+
+    def getQuestionsTrueFalse(self, poll):
+        pollQuestions = []
+        for i in range(len(poll.questionlist)):
+            a = sorted(poll.questionlist,key = lambda x:x.name)[i].getKeys()
+            b = self.PollsAndAnswers.get(poll)
+            if b == None:
+                continue
+            b = sorted(self.PollsAndAnswers.get(poll).studentQuestions,key=lambda x:x.name)[i].getKeys()
+            if a == b:
+                pollQuestions.append(1)
+            else:
+                pollQuestions.append(0)
+        return pollQuestions
+
+
+
+    def getSuccessNew(self):
+        correctAnswersByPoll= []
+        for poll, submit in self.PollsAndAnswers.items():
+            pollQuestions = []
+            list = sorted(submit.studentQuestions, key=lambda x: x.name, reverse=True)
+            for i in range(len(poll.questionlist)):
+                a = poll.questionlist[i].getKeys()
+                b = list[i].getKeys()
+                if a == b:
+                    pollQuestions.append(1)
+                else:
+                    pollQuestions.append(0)
+            correctAnswersByPoll.append(pollQuestions)
+        return correctAnswersByPoll
+
 
     def getSuccess(self, polls):
         for poll in polls:
@@ -63,36 +117,17 @@ class Student:
 
     def getStatus(self, poll):
         status = []
-        for pollAnswer in self.pollAnswers:
-            if pollAnswer.poll.name == poll.name:
-                status.append(self.studentID)
-                status.append(self.name)
-                status.append(self.surname)
-                status.append(self.email)
-                studentAnswers = []
-                keys = []
-                for question in poll.questionlist:
-                    keys.append(question.keys)
-                for answer in pollAnswer.studentAnswers:
-                    studentAnswers.append(answer.answertext)
-                trueCount = 0
-                for i in range(len(keys)):
-                    keyTexts= []
-                    for k in keys:
-                        for l in k:
-                            keyTexts.append(l.answertext)
-
-
-                    studentTexts = []
-                    for studentAnswer in studentAnswers:
-                        studentTexts.append(studentAnswer)
-                    if keyTexts[i] == studentTexts[i]:
-                        status.append(1)
-                        trueCount += 1
-                    else:
-                        status.append(0)
-
-                status.append(str(trueCount)+ " of " + str(len(keys)))
-                status.append(trueCount/len(keys))
-
+        status.append(self.studentID)
+        status.append(self.name)
+        status.append(self.surname)
+        status.append(self.email)
+        sucess = self.getQuestionsTrueFalse(poll)
+        counter = 0
+        for i in sucess:
+            status.append(i)
+            counter += i
+        rate = f"{counter} / {len(poll.questionlist)}"
+        percentage = counter*100/len(poll.questionlist)
+        status.append(rate)
+        status.append(percentage)
         return status
