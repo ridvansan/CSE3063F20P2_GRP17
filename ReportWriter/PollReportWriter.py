@@ -32,53 +32,26 @@ class PollReportWriter:
 
     def writeQuizDetailedReportsForEachStudent(self):
         for student in self.studentList:
+            for poll in student.PollsAndAnswers:
+                index = ["question text", "given answer", "correct answer"]
+                #fill whether the student answered the corresponding question correct or not
+                dataInExcelFile = []
+                for index, answer,question in zip(poll.questionlist, student.PollsAndAnswers[poll]):
+                    row = []
+                    row.append(question.name)
+                    row.append(answer.answertext)
+                    if question.keys[0].text == answer.answertext:
+                        row.append(1)
+                    else:
+                        row.append(0)
+                    dataInExcelFile.append(row)
+                frame = pd.DataFrame(dataInExcelFile, columns=index)
+                replaceChar = ",:- "
+                pollName = poll.name
+                date = poll.date
+                for char in replaceChar:
+                    pollName = pollName.replace(char, "_")
+                for char in replaceChar:
+                    date = date.replace(char, "_")
+                frame.to_excel("output/SecondAnalytic/" + "Poll" + '_' + pollName + '_' + date + '_' + student.name + '_' + student.surname + '_' + student.studentID + '.xlsx')
 
-            pollNumber = 0
-            for poll in self.pollList:
-                for pollAnswer in student.pollAnswers:
-                    if pollAnswer.poll.getQuestionNames() == poll.getQuestionNames():
-                        date = '2020'
-                        date = date.replace(" ", "_")
-                        pollname = poll.name.replace(" ", "_")
-                        studentName = student.name.replace(" ", "_")
-                        excelName = pollname + '_' + date + '_' + studentName + "_" + student.studentID
-                        index = ["Question Text", "Given Answer", "Correct Answer"]
-                        studentAnswers = []
-                        keys = []
-                        data = []
-                        answerCorrectnessList = []
-                        for question in poll.questionlist:
-                            keys.append(question.keys)
-
-                        for answer in pollAnswer.studentAnswers:
-                            studentAnswers.append(answer.answertext)
-
-                        for i in range(len(keys)):
-                            keyTexts= []
-                            for k in keys:
-                                for l in k:
-                                    keyTexts.append(l.answertext)
-
-                            studentTexts = []
-                            for studentAnswer in studentAnswers:
-                                studentTexts.append(studentAnswer)
-                            if keyTexts[i] == studentTexts[i]:
-                                answerCorrectnessList.append(1)
-
-                            else:
-                                answerCorrectnessList.append(0)
-                        for i in range(len(poll.questionlist)):
-                            row = []
-                            row.append(keys[0])
-                            row.append(studentAnswers[0])
-                            row.append(answerCorrectnessList[0])
-                            data.append(row)
-                        print("")
-                        try:
-                            frame = pd.DataFrame(data, columns=index)
-                            frame.to_excel("output/"+ "Poll" + '_' + str(pollNumber) + '_' + excelName + ".xlsx")
-                        except:
-                            continue
-
-
-            pollNumber += 1
